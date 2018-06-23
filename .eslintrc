@@ -7,12 +7,14 @@
     "import"
   ],
   "rules": {
+    "semi": 1,
     "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": 0,
     "react/jsx-one-expression-per-line": 0,
     "comma-dangle": 0,
     "react/no-unused-prop-types": 1,
-    "react/require-default-props": 0
+    "react/require-default-props": 0,
+    "jsx-quotes": [1, "prefer-single"]
   },
   "env": {
     "browser": true,

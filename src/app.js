@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { hot } from 'react-hot-loader';
+import './styles/common.scss'
 
-export default class App extends Component {
+class App extends Component {
   static propTypes = {
     a: PropTypes.func
   };
 
   render() {
     return (
-      <div>This is react appddsss</div>
+      <div className='test'> AThis is react a</div>
     );
   }
 }
+
+export default hot(module)(App);

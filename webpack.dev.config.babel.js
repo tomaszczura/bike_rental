@@ -1,11 +1,23 @@
 import HtmlWebPackPlugin from 'html-webpack-plugin';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 
 const appPath = resolve(__dirname, 'src');
 
 module.exports = {
+  devtool: 'eval', // Enable line-based sourcemaps
+  entry: [
+      'babel-polyfill',
+      // 'react-hot-loader/patch',
+      // 'isomorphic-fetch',
+      './src/index.js'
+  ],
+  output: {
+      filename: 'bundle.js',
+      path: join(__dirname, 'dist')
+  },
 
   devServer: {
+    contentBase: appPath,
     historyApiFallback: true,
     quiet: false,
     noInfo: false,
@@ -39,12 +51,26 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+              loader: "style-loader" // creates style nodes from JS strings
+          },
+          {
+              loader: "css-loader" // translates CSS into CommonJS
+          },
+          {
+              loader: "sass-loader" // compiles Sass to CSS
+          }
+        ]
+      }
     ],
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: './src/index.html',
-      filename: './index.html',
-    }),
+      inject: 'body',
+      template: './index.html'
+    })
   ],
 };
