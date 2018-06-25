@@ -1,0 +1,21 @@
+@import "../styles/colors";
+
+.header {
+  height: 70px;
+  background-color: $colorSecondaryMain;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+
+  &-buttons {
+    margin-left: auto;
+    button {
+      height: 40px;
+
+      & + button {
+        margin-left: 10px;
+      }
+    }
+  }
+}

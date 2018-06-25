@@ -1,15 +1,39 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import './styles/common.scss';
-import Header from './header';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles/index';
 import Main from './main';
+import Header from './header';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#4CAF50',
+      light: '#C8E6C9',
+      dark: '#388E3C',
+      contrastText: '#212121',
+    },
+    secondary: {
+      main: '#1976d2',
+      light: '#63a4ff',
+      dark: '#004ba0',
+      contrastText: '#fff',
+    },
+    accent: '#448AFF'
+  }
+});
 
 class App extends Component {
   render() {
     return (
       <div>
-        <Header/>
-        <Main/>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline>
+            <Header/>
+            <Main/>
+          </CssBaseline>
+        </MuiThemeProvider>
       </div>
     );
   }
