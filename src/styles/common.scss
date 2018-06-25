@@ -1,3 +1,15 @@
 body {
   font-family: 'Roboto';
 }
+
+form {
+  .input-container {
+    & > div {
+      width: 300px;
+    }
+
+    & + .input-container {
+      margin-top: 15px;
+    }
+  }
+}
