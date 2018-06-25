@@ -6,14 +6,15 @@ const appPath = resolve(__dirname, 'src');
 module.exports = {
   devtool: 'eval', // Enable line-based sourcemaps
   entry: [
-      'babel-polyfill',
-      // 'react-hot-loader/patch',
-      // 'isomorphic-fetch',
-      './src/index.js'
+    'babel-polyfill',
+    // 'react-hot-loader/patch',
+    // 'isomorphic-fetch',
+    './src/index.js'
   ],
   output: {
-      filename: 'bundle.js',
-      path: join(__dirname, 'dist')
+    filename: 'bundle.js',
+    publicPath: '/',
+    path: join(__dirname, 'dist')
   },
 
   devServer: {
@@ -55,13 +56,13 @@ module.exports = {
         test: /\.scss$/,
         use: [
           {
-              loader: "style-loader" // creates style nodes from JS strings
+            loader: 'style-loader' // creates style nodes from JS strings
           },
           {
-              loader: "css-loader" // translates CSS into CommonJS
+            loader: 'css-loader' // translates CSS into CommonJS
           },
           {
-              loader: "sass-loader" // compiles Sass to CSS
+            loader: 'sass-loader' // compiles Sass to CSS
           }
         ]
       }

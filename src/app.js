@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { hot } from 'react-hot-loader';
-import './styles/common.scss'
+import './styles/common.scss';
+import Header from './header';
+import Main from './main';
 
 class App extends Component {
-  static propTypes = {
-    a: PropTypes.func
-  };
-
   render() {
     return (
-      <div className='test'> AThis is react a</div>
+      <div>
+        <Header/>
+        <Main/>
+      </div>
     );
   }
 }
