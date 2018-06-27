@@ -11,6 +11,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { TextField } from '../../common/formInputs';
 import { isValidEmail } from '../../utils/validate';
+import * as actions from './actions';
+import { Errors } from './errors';
+import LoadingButton from '../../common/loadingButton';
 
 const validate = (values) => {
   const errors = {};
@@ -21,7 +24,7 @@ const validate = (values) => {
 
   if (!password || !password.replace(' ', '')) { errors.password = 'Password is required'; }
   if (!passwordConfirmation) { errors.passwordConfirmation = 'Confirm password'; }
-  if (password && password.length > 6) { errors.password = 'At least 6 characters'; }
+  if (password && password.length < 6) { errors.password = 'At least 6 characters'; }
   if (password !== passwordConfirmation) { errors.passwordConfirmation = 'Password does not match'; }
 
   return errors;
@@ -32,30 +35,54 @@ const validate = (values) => {
   validate
 })
 @connect(null, dispatch => ({
-  routerPush: bindActionCreators(push, dispatch)
+  routerPush: bindActionCreators(push, dispatch),
+  registerUser: bindActionCreators(actions.registerUser, dispatch)
 }))
 export default class RegisterDialog extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func,
+    registerUser: PropTypes.func,
     routerPush: PropTypes.func
+  };
+
+  state = {
+    error: ''
   };
 
   onSignUpClick = () => {
     this.props.routerPush('/login');
   };
 
-  submit = (form) => {
-    // debugger;
+  resolveError = (error) => {
+    if (error.response && error.response.data) {
+      if (error.response.data.errorCode === Errors.EMAIL_TAKEN) {
+        this.setState({ error: 'Email already taken', loading: false });
+        return;
+      }
+    }
+    this.setState({ error: 'Unknown error', loading: false });
+  };
+
+  submit = async (form) => {
+    try {
+      this.setState({ error: '', loading: true });
+      await this.props.registerUser(form.toJS());
+    } catch (error) {
+      console.error(error);
+      this.resolveError(error);
+    }
   };
 
   render() {
     const { handleSubmit } = this.props;
+    const { error, loading } = this.state;
 
     return (
       <Dialog open>
         <form onSubmit={handleSubmit(this.submit)}>
           <DialogTitle id='simple-dialog-title'>Register</DialogTitle>
           <DialogContent>
+            {error && <div className='error-container'>{error}</div>}
             <div className='input-container'>
               <Field label='E-mail' component={TextField} name='login'/>
             </div>
@@ -68,7 +95,7 @@ export default class RegisterDialog extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.onSignUpClick} color='primary'>Sign in</Button>
-            <Button onClick={handleSubmit(this.submit)} color='primary'>Sign up</Button>
+            <LoadingButton isLoading={loading} onClick={handleSubmit(this.submit)} color='primary'>Sign up</LoadingButton>
           </DialogActions>
         </form>
       </Dialog>

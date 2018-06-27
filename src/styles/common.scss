@@ -1,3 +1,5 @@
+@import "colors";
+
 body {
   font-family: 'Roboto';
 }
@@ -12,4 +14,12 @@ form {
       margin-top: 15px;
     }
   }
+}
+
+.error-container {
+  color: $colorRed500;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: solid 1px $colorRed500;
+  background-color: $colorRed100;
 }

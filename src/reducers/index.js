@@ -1,9 +1,11 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
 import { reducer as form } from 'redux-form/immutable';
 
 export function createCustomStore(history) {
   const middleware = [];
+  middleware.push(thunkMiddleware);
   middleware.push(routerMiddleware(history));
   const newCreateStore = Reflect.apply(applyMiddleware, null, middleware)(createStore);
   // Create the store
