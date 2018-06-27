@@ -4,43 +4,44 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
 import { reduxForm, Field } from 'redux-form/immutable';
-import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
 import { push } from 'react-router-redux';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { TextField } from '../../common/formInputs';
+import { isValidEmail } from '../../utils/validate';
 
 const validate = (values) => {
   const errors = {};
-  const { login, password } = values.toJS();
+  const { login, password, passwordConfirmation } = values.toJS();
 
-  if (!login) {
-    errors.login = 'This field is required';
-  }
+  if (!login || !login.replace(' ', '')) { errors.login = 'Email is required'; }
+  if (login && !isValidEmail(login)) { errors.login = 'Email is not valid'; }
 
-  if (!password) {
-    errors.password = 'This field is required';
-  }
+  if (!password || !password.replace(' ', '')) { errors.password = 'Password is required'; }
+  if (!passwordConfirmation) { errors.passwordConfirmation = 'Confirm password'; }
+  if (password && password.length > 6) { errors.password = 'At least 6 characters'; }
+  if (password !== passwordConfirmation) { errors.passwordConfirmation = 'Password does not match'; }
 
   return errors;
 };
 
 @reduxForm({
-  form: 'loginForm',
+  form: 'registerForm',
   validate
 })
 @connect(null, dispatch => ({
   routerPush: bindActionCreators(push, dispatch)
 }))
-export default class LoginDialog extends Component {
+export default class RegisterDialog extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func,
     routerPush: PropTypes.func
   };
 
   onSignUpClick = () => {
-    this.props.routerPush('/register');
+    this.props.routerPush('/login');
   };
 
   submit = (form) => {
@@ -53,7 +54,7 @@ export default class LoginDialog extends Component {
     return (
       <Dialog open>
         <form onSubmit={handleSubmit(this.submit)}>
-          <DialogTitle id='simple-dialog-title'>Login</DialogTitle>
+          <DialogTitle id='simple-dialog-title'>Register</DialogTitle>
           <DialogContent>
             <div className='input-container'>
               <Field label='E-mail' component={TextField} name='login'/>
@@ -61,10 +62,13 @@ export default class LoginDialog extends Component {
             <div className='input-container'>
               <Field label='Password' component={TextField} name='password' type='password'/>
             </div>
+            <div className='input-container'>
+              <Field label='Password confirmation' component={TextField} name='passwordConfirmation' type='password'/>
+            </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.onSignUpClick} color='primary'>Sign up</Button>
-            <Button onClick={handleSubmit(this.submit)} color='primary'>Login</Button>
+            <Button onClick={this.onSignUpClick} color='primary'>Sign in</Button>
+            <Button onClick={handleSubmit(this.submit)} color='primary'>Sign up</Button>
           </DialogActions>
         </form>
       </Dialog>

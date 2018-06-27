@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader';
 import './styles/common.scss';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles/index';
+import PropTypes from 'prop-types';
 import Main from './main';
 import Header from './header';
 
@@ -25,13 +26,19 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
+  static propTypes = {
+    children: PropTypes.node
+  };
+
   render() {
+    const { children } = this.props;
+
     return (
       <div>
         <MuiThemeProvider theme={theme}>
           <CssBaseline>
             <Header/>
-            <Main/>
+            {children}
           </CssBaseline>
         </MuiThemeProvider>
       </div>
