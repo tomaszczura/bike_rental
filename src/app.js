@@ -52,7 +52,9 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <CssBaseline>
             <Header/>
-            {children}
+            <div className='main-page-container'>
+              {children}
+            </div>
           </CssBaseline>
         </MuiThemeProvider>
       </div>

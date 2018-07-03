@@ -7,6 +7,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import UserMenu from './userMenu';
 import * as session from '../utils/session';
 import selector from './selector';
+import { UserRoles } from '../user/utils';
 
 @connect(selector)
 export default class Header extends Component {
@@ -17,7 +18,7 @@ export default class Header extends Component {
   render() {
     const { userProfile } = this.props;
     const activeStyle = { backgroundColor: '#388E3C' };
-    const isManager = userProfile.get('role') === 'MANAGER';
+    const isManager = userProfile.get('role') === UserRoles.MANAGER;
 
     return (
       <header className='header'>
