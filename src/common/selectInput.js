@@ -17,11 +17,6 @@ export default class SelectInput extends Component {
     renderValue: PropTypes.func.isRequired
   };
 
-  // onChange = (value) => {
-  //   console.log(value.target.value);
-  //   this.props.input.onChange(value.target.value);
-  // };
-
   render() {
     const { values, input, meta: { touched, error }, label, renderValue, renderOption } = this.props;
 
