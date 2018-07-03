@@ -14,6 +14,7 @@ import { isValidEmail } from '../../utils/validate';
 import * as actions from './actions';
 import { Errors } from './errors';
 import LoadingButton from '../../common/loadingButton';
+import { getErrorCode } from '../../utils/error';
 
 const validate = (values) => {
   const errors = {};
@@ -54,21 +55,21 @@ export default class RegisterDialog extends Component {
   };
 
   resolveError = (error) => {
-    if (error.response && error.response.data) {
-      if (error.response.data.errorCode === Errors.EMAIL_TAKEN) {
-        this.setState({ error: 'Email already taken', loading: false });
-        return;
-      }
+    const errorCode = getErrorCode(error);
+    let errorMessage = 'Unknown error';
+    if (errorCode === Errors.EMAIL_TAKEN) {
+      errorMessage = 'Email already taken';
     }
-    this.setState({ error: 'Unknown error', loading: false });
+    this.setState({ error: errorMessage, loading: false });
   };
 
   submit = async (form) => {
     try {
       this.setState({ error: '', loading: true });
       await this.props.registerUser(form.toJS());
+      this.setState({ loading: false });
+      this.props.routerPush('/bikes');
     } catch (error) {
-      console.error(error);
       this.resolveError(error);
     }
   };

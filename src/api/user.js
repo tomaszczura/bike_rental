@@ -16,7 +16,7 @@ export async function loginUser({ login, password }) {
     email: login,
     password
   };
-  const { body } = await http.post('/users/login', params);
+  const body = await http.post('/users/login', params);
 
   return transformUser(body.data);
 }

@@ -7,6 +7,7 @@ import LoginDialog from './user/loginDialog';
 import BikesList from './bikes/list';
 import RegisterDialog from './user/registerDialog';
 
+// eslint-disable-next-line no-unused-vars
 export const getRoutes = ({ dispatch, getState }) => {
   function requireAuthenticated() {
     return (nextState, replace) => {
@@ -16,11 +17,19 @@ export const getRoutes = ({ dispatch, getState }) => {
     };
   }
 
+  function requireNotAuthenticated() {
+    return (nextState, replace) => {
+      if (session.getSavedUser()) {
+        return replace('/bikes');
+      }
+    };
+  }
+
   return (
     <Route component={App} path='/'>
       <IndexRedirect to='/bikes'/>
-      <Route path='/login' component={LoginDialog}/>
-      <Route path='/register' component={RegisterDialog}/>
+      <Route path='/login' component={LoginDialog} onEnter={requireNotAuthenticated()}/>
+      <Route path='/register' component={RegisterDialog} onEnter={requireNotAuthenticated()}/>
       <Route path='/bikes' component={BikesList} onEnter={requireAuthenticated()}/>
       <Redirect from='*' to='/'/>
     </Route>
