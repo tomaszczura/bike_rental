@@ -31,7 +31,8 @@ export const getRoutes = ({ dispatch, getState }) => {
   function requireAuthenticatedManager() {
     return (nextState, replace) => {
       const user = userProfileSelector(getState());
-      if (user.get('role') !== UserRoles.MANAGER) {
+      const savedUser = session.getSavedUser();
+      if (user.get('role') !== UserRoles.MANAGER && savedUser.role !== UserRoles.MANAGER) {
         return replace('/bikes');
       } else {
         return requireAuthenticated();

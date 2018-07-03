@@ -9,7 +9,8 @@ export function getSavedUser() {
 export function saveUser(user) {
   const dataToSave = {
     token: user.token,
-    email: user.profile.email
+    email: user.profile.email,
+    role: user.profile.role
   };
   cookies.set('session', JSON.stringify(dataToSave), { path: '/' });
 }

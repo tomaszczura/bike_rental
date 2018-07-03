@@ -25,6 +25,20 @@ form {
 }
 
 .main-page-container {
+  max-width: 1350px;
+  padding-top: 40px;
   padding-left: 40px;
   padding-right: 40px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.manage-table-bar {
+  display: flex;
+  justify-content: space-between;
+
+  .search-field {
+    margin-right: 10px;
+  }
 }
