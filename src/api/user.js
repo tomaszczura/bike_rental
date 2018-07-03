@@ -1,4 +1,4 @@
-import { http } from './utils';
+import { authHeaders, http } from './utils';
 import { transformUser } from '../transformers/user';
 
 export async function registerUser({ login, password, passwordConfirmation }) {
@@ -18,5 +18,10 @@ export async function loginUser({ login, password }) {
   };
   const body = await http.post('/users/login', params);
 
+  return transformUser(body.data);
+}
+
+export async function fetchCurrentUser() {
+  const body = await http.get('/users/profile', authHeaders());
   return transformUser(body.data);
 }

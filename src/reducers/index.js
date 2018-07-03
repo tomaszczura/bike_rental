@@ -1,7 +1,9 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
+import { combineReducers } from 'redux-immutablejs';
 import thunkMiddleware from 'redux-thunk';
-import { routerMiddleware, routerReducer } from 'react-router-redux';
+import { routerMiddleware, routerReducer as router } from 'react-router-redux';
 import { reducer as form } from 'redux-form/immutable';
+import dataReducer from './data';
 
 export function createCustomStore(history) {
   const middleware = [];
@@ -12,7 +14,8 @@ export function createCustomStore(history) {
   return newCreateStore(
     combineReducers({
       form,
-      routing: routerReducer,
+      data: dataReducer,
+      router,
     }),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );

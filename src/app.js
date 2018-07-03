@@ -4,8 +4,11 @@ import './styles/common.scss';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles/index';
 import PropTypes from 'prop-types';
-import Main from './main';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Header from './header';
+import * as actions from './actions/user';
+import * as session from './utils/session';
 
 const theme = createMuiTheme({
   palette: {
@@ -25,10 +28,21 @@ const theme = createMuiTheme({
   }
 });
 
+@connect(null, dispatch => ({
+  fetchUserProfile: bindActionCreators(actions.fetchUser, dispatch)
+}))
 class App extends Component {
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    fetchUserProfile: PropTypes.func
   };
+
+  componentDidMount() {
+    const savedUser = session.getSavedUser();
+    if (savedUser) {
+      this.props.fetchUserProfile();
+    }
+  }
 
   render() {
     const { children } = this.props;

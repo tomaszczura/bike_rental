@@ -7,7 +7,7 @@ import { createCustomStore } from './reducers/index';
 import { getRoutes } from './routes';
 
 const store = createCustomStore(browserHistory);
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(browserHistory, store, { selectLocationState: (state) => state.get('router') });
 
 ReactDOM.render(
   <Provider store={store}>

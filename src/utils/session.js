@@ -8,7 +8,8 @@ export function getSavedUser() {
 
 export function saveUser(user) {
   const dataToSave = {
-    token: user.token
+    token: user.token,
+    email: user.profile.email
   };
   cookies.set('session', JSON.stringify(dataToSave), { path: '/' });
 }
