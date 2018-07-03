@@ -8,7 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as actions from '../../actions/user';
-import selector from './selector';
+import selector from '../selector';
 
 @connect(selector, dispatch => ({
   logoutUser: bindActionCreators(actions.logoutUser, dispatch),
