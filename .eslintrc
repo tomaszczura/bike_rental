@@ -35,7 +35,9 @@
     "arrow-parens": 0,
     "operator-linebreak": 0,
     "react/jsx-wrap-multilines": 0,
-    "no-else-return": 0
+    "no-else-return": 0,
+    "react/no-array-index-key": 0,
+    "arrow-body-style": 1
   },
   "env": {
     "browser": true,

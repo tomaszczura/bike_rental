@@ -45,7 +45,7 @@ export default class LoginDialog extends Component {
     routerPush: PropTypes.func
   };
 
-  state = {}
+  state = {};
 
   onSignUpClick = () => {
     this.props.routerPush('/register');
