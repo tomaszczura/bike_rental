@@ -8,6 +8,8 @@ import SelectInput from '../../../common/selectInput';
 import { Colors } from '../../../constants/colors';
 import './index.scss';
 import ImageInput from '../../../common/imageInput';
+import { CustomGoogleMap } from '../../../common/map';
+import MapField from '../../../common/mapField';
 
 const validate = (values) => {
   const errors = {};
@@ -44,36 +46,41 @@ export default class EditBikeDialog extends Component {
 
     return (
       <DialogBase title='Create Bike' onClose={onClose} onSubmit={handleSubmit(this.onSubmit)}>
-        <div>
-          <div className='input-container'>
-            <Field label='Model' component={TextField} name='model'/>
+        <div className='form-container'>
+          <div>
+            <div className='input-container'>
+              <Field label='Model' component={TextField} name='model'/>
+            </div>
+            <div className='input-container'>
+              <Field
+                InputProps={{
+                  startAdornment: <InputAdornment position='start'>Kg</InputAdornment>,
+                }}
+                label='Weight'
+                component={TextField}
+                name='weight'
+                type='number'
+                step='0.01'
+                min='0'/>
+            </div>
+            <div className='input-container'>
+              <Field
+                component={SelectInput}
+                label='Color'
+                name='color'
+                renderValue={this.renderColorValue}
+                renderOption={this.renderColorSelect}
+                values={Colors}/>
+            </div>
           </div>
-          <div className='input-container'>
-            <Field
-              InputProps={{
-                startAdornment: <InputAdornment position='start'>Kg</InputAdornment>,
-              }}
-              label='Weight'
-              component={TextField}
-              name='weight'
-              type='number'
-              step='0.01'
-              min='0'/>
-          </div>
-          <div className='input-container'>
-            <Field
-              component={SelectInput}
-              label='Color'
-              name='color'
-              renderValue={this.renderColorValue}
-              renderOption={this.renderColorSelect}
-              values={Colors}/>
-          </div>
-          <div className='input-container'>
+          <div>
             <Field
               component={ImageInput}
               name='image'/>
           </div>
+        </div>
+        <div className='input-maps-container'>
+          <Field component={MapField} name='location'/>
         </div>
       </DialogBase>
     );
