@@ -7,7 +7,7 @@
 .form-container {
   display: flex;
 
-  & > div {
+  & > div + div {
     margin-left: 10px;
   }
 

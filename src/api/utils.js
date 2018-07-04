@@ -6,18 +6,19 @@ export const http = axios.create({
   timeout: 1000
 });
 
-export function authHeaders() {
+export function authHeaders(headers) {
   const user = session.getSavedUser();
   if (user) {
     return {
       headers: {
+        ...headers,
         token: user.token,
         email: user.email
       }
     };
   }
   return {
-    headers: {}
+    headers
   };
 }
 

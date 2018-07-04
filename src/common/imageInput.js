@@ -19,7 +19,6 @@ export default class ImageInput extends Component {
 
     reader.onloadend = () => {
       this.setState({
-        file,
         imagePreviewUrl: reader.result
       });
     };
