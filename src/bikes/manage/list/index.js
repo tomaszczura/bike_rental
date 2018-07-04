@@ -4,12 +4,24 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import EditBikeDialog from '../create';
+import * as actions from './actions';
 
+@connect(null, dispatch => ({
+  fetchBikes: bindActionCreators(actions.fetchBikes, dispatch)
+}))
 export default class BikesManageList extends Component {
-  static propTypes = {};
+  static propTypes = {
+    fetchBikes: PropTypes.func
+  };
 
   state = {};
+
+  componentDidMount() {
+    this.props.fetchBikes();
+  }
 
   openCreateBikeDialog = () => this.setState({ showCreateDialog: true });
 
