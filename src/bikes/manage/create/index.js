@@ -8,17 +8,17 @@ import SelectInput from '../../../common/selectInput';
 import { Colors } from '../../../constants/colors';
 import './index.scss';
 import ImageInput from '../../../common/imageInput';
-import { CustomGoogleMap } from '../../../common/map';
 import MapField from '../../../common/mapField';
 
 const validate = (values) => {
   const errors = {};
-  const { model, color, weight, image } = values.toJS();
+  const { model, color, weight, image, location } = values.toJS();
 
   if (!model) { errors.model = 'Model is required'; }
   if (!color) { errors.color = 'Color is required'; }
   if (!weight) { errors.weight = 'Weight is required'; }
   if (!image || image.length === 0) { errors.image = 'Image is required'; }
+  if (!location || !location.lat || !location.lng) { errors.location = 'Location is required'; }
 
   return errors;
 };
@@ -35,11 +35,12 @@ export default class EditBikeDialog extends Component {
 
   onSubmit = async (form) => {
     const values = form.toJS();
+    debugger;
   };
 
   renderColorSelect = (value) => <div className='select-color' style={{ backgroundColor: value }} />;
 
-  renderColorValue = (value) => <div className='select-color' style={{ backgroundColor: value }} />
+  renderColorValue = (value) => <div className='select-color' style={{ backgroundColor: value }} />;
 
   render() {
     const { handleSubmit, onClose } = this.props;
@@ -47,6 +48,11 @@ export default class EditBikeDialog extends Component {
     return (
       <DialogBase title='Create Bike' onClose={onClose} onSubmit={handleSubmit(this.onSubmit)}>
         <div className='form-container'>
+          <div className='bike-image'>
+            <Field
+              component={ImageInput}
+              name='image'/>
+          </div>
           <div>
             <div className='input-container'>
               <Field label='Model' component={TextField} name='model'/>
@@ -73,14 +79,9 @@ export default class EditBikeDialog extends Component {
                 values={Colors}/>
             </div>
           </div>
-          <div>
-            <Field
-              component={ImageInput}
-              name='image'/>
-          </div>
         </div>
         <div className='input-maps-container'>
-          <Field component={MapField} name='location'/>
+          <Field component={MapField} label='Location' name='location'/>
         </div>
       </DialogBase>
     );
