@@ -1,8 +1,8 @@
 import { authHeaders, http } from './utils';
 import { transformBike } from '../transformers/bike';
 
-export async function fetchBikes() {
-  const url = '/bikes';
+export async function fetchBikes({ page = 0, pageSize = 25 }) {
+  const url = `/bikes?page=${page}&pageSize=${pageSize}`;
   const { data } = await http.get(url, authHeaders());
   data.data = data.data.map(transformBike);
   return data;

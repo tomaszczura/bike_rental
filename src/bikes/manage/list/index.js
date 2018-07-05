@@ -87,7 +87,7 @@ export default class BikesManageList extends Component {
   };
 
   render() {
-    const { location } = this.props;
+    const { bikes, location } = this.props;
     const { showCreateDialog } = this.state;
 
     return (
@@ -109,7 +109,11 @@ export default class BikesManageList extends Component {
           <Button variant='contained' color='primary' onClick={this.openCreateBikeDialog}>New Bike</Button>
         </div>
         <div>
-          <DataTable location={location} headers={this.tableHeaders} rows={this.renderBikeRows()}/>
+          <DataTable
+            location={location}
+            headers={this.tableHeaders}
+            rows={this.renderBikeRows()}
+            totalCount={bikes.get('totalCount')}/>
         </div>
         {showCreateDialog && <EditBikeDialog onClose={this.closeCreateBikeDialog}/>}
       </div>

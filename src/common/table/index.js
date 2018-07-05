@@ -5,8 +5,11 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import TableBody from '@material-ui/core/TableBody';
-import DataTableHead from './tableHead';
 import './index.scss';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableFooter from '@material-ui/core//TableFooter';
+import TableRow from '@material-ui/core/TableRow';
+import DataTableHead from './tableHead';
 
 @connect(null, dispatch => ({
   routerPush: bindActionCreators(push, dispatch)
@@ -16,7 +19,8 @@ export default class DataTable extends Component {
     location: PropTypes.object.isRequired,
     headers: PropTypes.array.isRequired,
     rows: PropTypes.object.isRequired,
-    routerPush: PropTypes.func
+    routerPush: PropTypes.func,
+    totalCount: PropTypes.number,
   };
 
   onSortChange = (event, orderBy) => {
@@ -32,8 +36,41 @@ export default class DataTable extends Component {
     });
   };
 
+  onPageChange = (event, page) => {
+    const { location, location: { query } } = this.props;
+    this.props.routerPush({
+      ...location,
+      query: {
+        ...query,
+        page
+      }
+    });
+  };
+
+  onPageChange = (event, page) => {
+    const { location, location: { query } } = this.props;
+    this.props.routerPush({
+      ...location,
+      query: {
+        ...query,
+        page
+      }
+    });
+  };
+
+  onRowsPerPageChange = event => {
+    const { location, location: { query } } = this.props;
+    this.props.routerPush({
+      ...location,
+      query: {
+        ...query,
+        pageSize: event.target.value
+      }
+    });
+  };
+
   render() {
-    const { headers, location: { query }, rows } = this.props;
+    const { headers, location: { query }, rows, totalCount } = this.props;
 
     return (
       <div className='data-table'>
@@ -46,6 +83,17 @@ export default class DataTable extends Component {
           <TableBody>
             {rows}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                colSpan={headers.length}
+                count={totalCount || 0}
+                rowsPerPage={parseInt(query.pageSize, 10) || 25}
+                page={parseInt(query.page, 10) || 0}
+                onChangePage={this.onRowsPerPageChange}
+                onChangeRowsPerPage={this.onRowsPerPageChange}/>
+            </TableRow>
+          </TableFooter>
         </Table>
       </div>
     );
