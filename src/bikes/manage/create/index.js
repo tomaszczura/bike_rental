@@ -10,6 +10,7 @@ import './index.scss';
 import ImageInput from '../../../common/imageInput';
 import MapField from '../../../common/mapField';
 import * as actions from './actions';
+import * as listActions from '../list/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -32,11 +33,14 @@ const validate = (values) => {
   validate
 })
 @connect(null, dispatch => ({
-  persistBike: bindActionCreators(actions.persistBike, dispatch)
+  persistBike: bindActionCreators(actions.persistBike, dispatch),
+  fetchBikes: bindActionCreators(listActions.fetchBikes, dispatch)
 }))
 export default class EditBikeDialog extends Component {
   static propTypes = {
+    fetchBikes: PropTypes.func,
     handleSubmit: PropTypes.func,
+    location: PropTypes.object,
     persistBike: PropTypes.func,
     onClose: PropTypes.func
   };
@@ -44,6 +48,7 @@ export default class EditBikeDialog extends Component {
   onSubmit = async (form) => {
     const values = form.toJS();
     await this.props.persistBike(values);
+    await this.props.fetchBikes(this.props.location.query);
     this.props.onClose();
   };
 

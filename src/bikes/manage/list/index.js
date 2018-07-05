@@ -16,6 +16,7 @@ import * as actions from './actions';
 import selector from './selector';
 import DataTable from '../../../common/table';
 import { hashQuery } from '../../../reducers/utils';
+import { isLoading } from '../../../utils/data';
 
 @connect(selector, dispatch => ({
   fetchBikes: bindActionCreators(actions.fetchBikes, dispatch)
@@ -110,12 +111,13 @@ export default class BikesManageList extends Component {
         </div>
         <div>
           <DataTable
+            isLoading={isLoading(bikes)}
             location={location}
             headers={this.tableHeaders}
             rows={this.renderBikeRows()}
             totalCount={bikes.get('totalCount')}/>
         </div>
-        {showCreateDialog && <EditBikeDialog onClose={this.closeCreateBikeDialog}/>}
+        {showCreateDialog && <EditBikeDialog location={location} onClose={this.closeCreateBikeDialog}/>}
       </div>
     );
   }

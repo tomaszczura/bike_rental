@@ -9,6 +9,7 @@ import './index.scss';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableFooter from '@material-ui/core//TableFooter';
 import TableRow from '@material-ui/core/TableRow';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import DataTableHead from './tableHead';
 
 @connect(null, dispatch => ({
@@ -17,6 +18,7 @@ import DataTableHead from './tableHead';
 export default class DataTable extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool,
     headers: PropTypes.array.isRequired,
     rows: PropTypes.object.isRequired,
     routerPush: PropTypes.func,
@@ -37,25 +39,16 @@ export default class DataTable extends Component {
   };
 
   onPageChange = (event, page) => {
-    const { location, location: { query } } = this.props;
-    this.props.routerPush({
-      ...location,
-      query: {
-        ...query,
-        page
-      }
-    });
-  };
-
-  onPageChange = (event, page) => {
-    const { location, location: { query } } = this.props;
-    this.props.routerPush({
-      ...location,
-      query: {
-        ...query,
-        page
-      }
-    });
+    if (event !== null) {
+      const { location, location: { query } } = this.props;
+      this.props.routerPush({
+        ...location,
+        query: {
+          ...query,
+          page
+        }
+      });
+    }
   };
 
   onRowsPerPageChange = event => {
@@ -70,10 +63,15 @@ export default class DataTable extends Component {
   };
 
   render() {
-    const { headers, location: { query }, rows, totalCount } = this.props;
+    const { headers, location: { query }, rows, totalCount, isLoading } = this.props;
 
     return (
       <div className='data-table'>
+        {isLoading &&
+          <div className='progress'>
+            <CircularProgress size={50}/>
+          </div>
+        }
         <Table>
           <DataTableHead
             headers={headers}
@@ -90,7 +88,7 @@ export default class DataTable extends Component {
                 count={totalCount || 0}
                 rowsPerPage={parseInt(query.pageSize, 10) || 25}
                 page={parseInt(query.page, 10) || 0}
-                onChangePage={this.onRowsPerPageChange}
+                onChangePage={this.onPageChange}
                 onChangeRowsPerPage={this.onRowsPerPageChange}/>
             </TableRow>
           </TableFooter>
