@@ -3,8 +3,9 @@ import { transformBike } from '../transformers/bike';
 
 export async function fetchBikes() {
   const url = '/bikes';
-  const body = await http.get(url, authHeaders());
-  return transformBike(body.data);
+  const { data } = await http.get(url, authHeaders());
+  data.data = data.data.map(transformBike);
+  return data;
 }
 
 export async function persistBike({ id, model, weight, color, location, image, isAvailable }) {
