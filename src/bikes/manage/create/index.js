@@ -44,6 +44,7 @@ export default class EditBikeDialog extends Component {
   onSubmit = async (form) => {
     const values = form.toJS();
     await this.props.persistBike(values);
+    this.props.onClose();
   };
 
   renderColorSelect = (value) => <div className='select-color' style={{ backgroundColor: value }} />;

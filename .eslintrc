@@ -38,7 +38,9 @@
     "no-else-return": 0,
     "react/no-array-index-key": 0,
     "arrow-body-style": 1,
-    "no-return-await": 0
+    "no-return-await": 0,
+    "no-unused-expressions": 0,
+    "jsx-a11y/alt-text": 0
   },
   "env": {
     "browser": true,

@@ -13,7 +13,7 @@ export function relationsDataFetchStart(state, path, key) {
 export function relationsDataFetchSuccess(state, path, entityPath, key, data) {
   let newState = state;
   data.data.forEach((d) => {
-    newState = state.setIn(['entities', entityPath, d.id], fromJS(d));
+    newState = newState.setIn(['entities', entityPath, d.id], fromJS(d));
   });
   newState = newState.setIn(['relations', path, key, 'data'], fromJS(data.data.map((d) => d.id)))
     .setIn(['relations', path, key, 'status'], LOADED)

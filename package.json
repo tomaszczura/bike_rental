@@ -33,6 +33,7 @@
     "redux-immutablejs": "0.0.8",
     "redux-thunk": "^2.3.0",
     "reselect": "^3.0.1",
+    "shortid": "^2.2.8",
     "typeface-roboto": "0.0.54",
     "universal-cookie": "^2.2.0",
     "webpack": "4.12.0",
