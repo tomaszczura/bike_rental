@@ -41,7 +41,8 @@
     "no-return-await": 0,
     "no-unused-expressions": 0,
     "jsx-a11y/alt-text": 0,
-    "prefer-destructuring": 0
+    "prefer-destructuring": 0,
+    "no-alert": 0
   },
   "env": {
     "browser": true,

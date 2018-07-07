@@ -8,6 +8,12 @@ export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, sear
   return data;
 }
 
+export async function deleteBike({ bikeId }) {
+  const url = `/bikes/${bikeId}`;
+  const { data } = await http.delete(url, authHeaders());
+  return data;
+}
+
 export async function persistBike({ id, model, weight, color, location, image, isAvailable }) {
   let url = '/bikes';
   if (id) {

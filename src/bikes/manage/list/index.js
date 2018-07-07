@@ -14,13 +14,17 @@ import DataTable from '../../../common/table';
 import { hashQuery } from '../../../reducers/utils';
 import { isLoading } from '../../../utils/data';
 import SearchBar from '../../../common/searchBar';
+import DeleteImageButton from '../../../common/deleteImgBtn';
+
 
 @connect(selector, dispatch => ({
-  fetchBikes: bindActionCreators(actions.fetchBikes, dispatch)
+  fetchBikes: bindActionCreators(actions.fetchBikes, dispatch),
+  deleteBike: bindActionCreators(actions.deleteBike, dispatch)
 }))
 export default class BikesManageList extends Component {
   static propTypes = {
     bikes: ImmutablePropTypes.map,
+    deleteBike: PropTypes.func,
     fetchBikes: PropTypes.func,
     location: PropTypes.object
   };
@@ -61,6 +65,11 @@ export default class BikesManageList extends Component {
     console.log(`Click bike: ${bike.get('id')}`);
   };
 
+  handleBikeDeleteClick = (id) => async () => {
+    await this.props.deleteBike({ bikeId: id });
+    this.props.fetchBikes(this.props.location.query);
+  };
+
   renderBikeRows = () => {
     const { bikes } = this.props;
     return bikes.get('data', List()).map((bike) => (
@@ -79,7 +88,9 @@ export default class BikesManageList extends Component {
         <TableCell><div style={{ width: 20, height: 20, backgroundColor: bike.get('color') }}/></TableCell>
         <TableCell>{bike.get('weight')}</TableCell>
         <TableCell><Checkbox checked={bike.get('isAvailable')}/></TableCell>
-        <TableCell/>
+        <TableCell>
+          <DeleteImageButton onDelete={this.handleBikeDeleteClick(bike.get('id'))}/>
+        </TableCell>
       </TableRow>
     ));
   };
