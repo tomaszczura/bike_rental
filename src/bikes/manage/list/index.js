@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Search from '@material-ui/icons/Search';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -17,6 +13,7 @@ import selector from './selector';
 import DataTable from '../../../common/table';
 import { hashQuery } from '../../../reducers/utils';
 import { isLoading } from '../../../utils/data';
+import SearchBar from '../../../common/searchBar';
 
 @connect(selector, dispatch => ({
   fetchBikes: bindActionCreators(actions.fetchBikes, dispatch)
@@ -93,22 +90,7 @@ export default class BikesManageList extends Component {
 
     return (
       <div>
-        <div className='manage-table-bar'>
-          <div className='search-field'>
-            <Input
-              fullWidth
-              id='search'
-              startAdornment={
-                <InputAdornment position='start'>
-                  <Search />
-                </InputAdornment>
-              }
-              label='Search'
-              placeholder='Search'
-              type='search'/>
-          </div>
-          <Button variant='contained' color='primary' onClick={this.openCreateBikeDialog}>New Bike</Button>
-        </div>
+        <SearchBar createTitle='New Bike' location={location} onCreateClick={this.openCreateBikeDialog}/>
         <div>
           <DataTable
             isLoading={isLoading(bikes)}

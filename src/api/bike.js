@@ -1,13 +1,8 @@
-import { authHeaders, http } from './utils';
+import { authHeaders, http, prepareSearchPageParams } from './utils';
 import { transformBike } from '../transformers/bike';
 
-export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy }) {
-  let url = `/bikes?page=${parseInt(page, 0) + 1}&pageSize=${pageSize}`;
-
-  if (orderBy && ['asc', 'desc'].includes(order)) {
-    url = `${url}&sortBy=${orderBy}&sortDir=${order.toUpperCase()}`;
-  }
-
+export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, search }) {
+  const url = `/bikes?${prepareSearchPageParams({ page, pageSize, order, orderBy, search })}`;
   const { data } = await http.get(url, authHeaders());
   data.data = data.data.map(transformBike);
   return data;

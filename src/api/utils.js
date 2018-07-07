@@ -35,3 +35,18 @@ export function apiAction(_apiCall, startActionType, successActionType, errorAct
     }
   };
 }
+
+export function prepareSearchPageParams(params) {
+  const { page, pageSize, order, orderBy, search } = params;
+  let query = `page=${parseInt(page, 0) + 1}&pageSize=${pageSize}`;
+
+  if (orderBy && ['asc', 'desc'].includes(order)) {
+    query = `${query}&sortBy=${orderBy}&sortDir=${order.toUpperCase()}`;
+  }
+
+  if (search) {
+    query = `${query}&search=${encodeURIComponent(search)}`;
+  }
+
+  return query;
+}

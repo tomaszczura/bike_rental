@@ -5,8 +5,9 @@ export function relatedEntitiesSelector(entitiesSelector, relationsSelector, key
   return createSelector(entitiesSelector, relationsSelector, keySelector, (entities, relations, key) => {
     const relData = relations.get(key) || Map();
     const entityIds = relData.get('data') || List();
-    const dataArray = entities.reduce((array, entity) => {
-      if (entityIds.includes(entity.get('id'))) {
+    const dataArray = entityIds.reduce((array, entityId) => {
+      const entity = entities.get(entityId);
+      if (entity) {
         array.push(entity);
       }
       return array;
