@@ -42,7 +42,9 @@
     "no-unused-expressions": 0,
     "jsx-a11y/alt-text": 0,
     "prefer-destructuring": 0,
-    "no-alert": 0
+    "no-alert": 0,
+    "spaced-comment": 1,
+    "react/jsx-indent": 1
   },
   "env": {
     "browser": true,

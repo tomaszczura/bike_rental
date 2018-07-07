@@ -17,7 +17,6 @@ import SearchBar from '../../../common/searchBar';
 import DeleteImageButton from '../../../common/deleteImgBtn';
 import EditImageButton from '../../../common/editImgBtn';
 
-
 @connect(selector, dispatch => ({
   fetchBikes: bindActionCreators(actions.fetchBikes, dispatch),
   deleteBike: bindActionCreators(actions.deleteBike, dispatch)

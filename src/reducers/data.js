@@ -6,10 +6,12 @@ import { hashQuery, relationsDataFetchError, relationsDataFetchStart, relationsD
 export default (state = fromJS({
   profile: {},
   entities: {
-    bikes: {}
+    bikes: {},
+    users: {}
   },
   relations: {
-    queryHasBikes: {}
+    queryHasBikes: {},
+    queryHasUsers: {}
   }
 }), action) => {
   switch (action.type) {
@@ -20,6 +22,13 @@ export default (state = fromJS({
 
     case userActions.LOGOUT_USER:
       return state.set('profile', fromJS({}));
+
+    case userActions.FETCH_USERS_START:
+      return relationsDataFetchStart(state, 'queryHasUsers', hashQuery(action.query));
+    case userActions.FETCH_USERS_SUCCESS:
+      return relationsDataFetchSuccess(state, 'queryHasUsers', 'users', hashQuery(action.query), action.data);
+    case userActions.FETCH_USERS_ERROR:
+      return relationsDataFetchError(state, 'queryHasUsers', hashQuery(action.query), action.error);
 
     case bikeActions.FETCH_BIKES_START:
       return relationsDataFetchStart(state, 'queryHasBikes', hashQuery(action.query));

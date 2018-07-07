@@ -27,7 +27,6 @@ const validate = (values) => {
   return errors;
 };
 
-
 @reduxForm({
   form: 'bikeForm',
   validate

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import UserMenu from './userMenu';
 import selector from './selector';
-import { UserRoles } from '../user/utils';
+import { UserRoles } from '../constants/userRoles';
 
 @connect(selector)
 export default class Header extends Component {

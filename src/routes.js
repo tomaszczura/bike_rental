@@ -7,8 +7,9 @@ import LoginDialog from './user/loginDialog';
 import BikesList from './bikes/list';
 import RegisterDialog from './user/registerDialog';
 import { userProfileSelector } from './selectors/data';
-import { UserRoles } from './user/utils';
 import BikesManageList from './bikes/manage/list';
+import UsersManageList from './users/list';
+import { UserRoles } from './constants/userRoles';
 
 // eslint-disable-next-line no-unused-vars
 export const getRoutes = ({ dispatch, getState }) => {
@@ -47,6 +48,7 @@ export const getRoutes = ({ dispatch, getState }) => {
       <Route path='/register' component={RegisterDialog} onEnter={requireNotAuthenticated()}/>
       <Route path='/bikes' component={BikesList} onEnter={requireAuthenticated()}/>
       <Route path='/manage-bikes' component={BikesManageList} onEnter={requireAuthenticatedManager()}/>
+      <Route path='/manage-users' component={UsersManageList} onEnter={requireAuthenticatedManager()}/>
       <Redirect from='*' to='/'/>
     </Route>
   );
