@@ -38,6 +38,7 @@ const validate = (values) => {
 }))
 export default class EditBikeDialog extends Component {
   static propTypes = {
+    edit: PropTypes.bool,
     fetchBikes: PropTypes.func,
     handleSubmit: PropTypes.func,
     location: PropTypes.object,
@@ -57,10 +58,10 @@ export default class EditBikeDialog extends Component {
   renderColorValue = (value) => <div className='select-color' style={{ backgroundColor: value }} />;
 
   render() {
-    const { handleSubmit, onClose } = this.props;
+    const { handleSubmit, onClose, edit } = this.props;
 
     return (
-      <DialogBase title='Create Bike' onClose={onClose} onSubmit={handleSubmit(this.onSubmit)}>
+      <DialogBase title={edit ? 'Edit Bike' : 'Create Bike'} submitText='Save' onClose={onClose} onSubmit={handleSubmit(this.onSubmit)}>
         <div className='form-container'>
           <div className='bike-image'>
             <Field component={ImageInput} name='image'/>
@@ -91,7 +92,7 @@ export default class EditBikeDialog extends Component {
                 values={Colors}/>
             </div>
             <div className='input-container'>
-              <Field component={CheckboxField} label='Is available'/>
+              <Field component={CheckboxField} label='Is available' name='isAvailable'/>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core//FormHelperText';
 import { CustomGoogleMap } from './map';
+import { fromJS } from 'immutable';
 
 export default class MapField extends Component {
   static propTypes = {
@@ -15,7 +16,7 @@ export default class MapField extends Component {
   onChange = (value) => {
     const lat = value.latLng.lat();
     const lng = value.latLng.lng();
-    this.props.input.onChange({ lat, lng });
+    this.props.input.onChange(fromJS({ lat, lng }));
   };
 
   render() {

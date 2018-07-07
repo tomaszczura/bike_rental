@@ -11,7 +11,13 @@ export default class ImageInput extends Component {
     meta: PropTypes.object,
   };
 
-  state = {};
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      imagePreviewUrl: this.props.input.value
+    };
+  }
 
   onFileChange = (e) => {
     const reader = new FileReader();

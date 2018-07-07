@@ -6,5 +6,5 @@ export const CustomGoogleMap = withGoogleMap(props =>
     {...props}
     defaultZoom={10}
     defaultCenter={{ lat: 50.049683, lng: 19.944544 }}>
-    {props.marker && <Marker position={{ lat: props.marker.lat, lng: props.marker.lng }}/>}
+    {props.marker && <Marker position={{ lat: props.marker.get('lat'), lng: props.marker.get('lng') }}/>}
   </GoogleMap>);

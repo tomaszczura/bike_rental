@@ -4,8 +4,8 @@ export function transformBike({ id, model, weight, location, color, imageUrl, is
     model,
     weight,
     location: {
-      lat: location.latitude,
-      lng: location.longitude
+      lat: parseFloat(location.latitude),
+      lng: parseFloat(location.longitude)
     },
     color,
     imageUrl,

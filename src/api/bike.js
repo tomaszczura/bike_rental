@@ -16,12 +16,18 @@ export async function deleteBike({ bikeId }) {
 
 export async function persistBike({ id, model, weight, color, location, image, isAvailable }) {
   let url = '/bikes';
+  let method = http.post;
   if (id) {
     url = `${url}/${id}`;
+    method = http.put;
   }
 
   const formData = new FormData();
-  formData.append('photo', image[0]);
+
+  if (!id || typeof image !== 'string') {
+    formData.append('photo', image[0]);
+  }
+
   formData.append('model', model);
   formData.append('weight', weight);
   formData.append('color', color);
@@ -29,6 +35,6 @@ export async function persistBike({ id, model, weight, color, location, image, i
   formData.append('longitude', location.lng);
   formData.append('is_available', isAvailable);
 
-  const body = await http.post(url, formData, authHeaders({ 'Content-Type': 'multipart/form-data' }));
+  const body = await method(url, formData, authHeaders({ 'Content-Type': 'multipart/form-data' }));
   return transformBike(body.data);
 }

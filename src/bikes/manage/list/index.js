@@ -15,6 +15,7 @@ import { hashQuery } from '../../../reducers/utils';
 import { isLoading } from '../../../utils/data';
 import SearchBar from '../../../common/searchBar';
 import DeleteImageButton from '../../../common/deleteImgBtn';
+import EditImageButton from '../../../common/editImgBtn';
 
 
 @connect(selector, dispatch => ({
@@ -70,6 +71,10 @@ export default class BikesManageList extends Component {
     this.props.fetchBikes(this.props.location.query);
   };
 
+  openBikeEditDialog = (bike) => async () => this.setState({ showEditDialog: true, bikeToEdit: bike });
+
+  closeEditBikeDialog = () => this.setState({ showEditDialog: false });
+
   renderBikeRows = () => {
     const { bikes } = this.props;
     return bikes.get('data', List()).map((bike) => (
@@ -89,6 +94,7 @@ export default class BikesManageList extends Component {
         <TableCell>{bike.get('weight')}</TableCell>
         <TableCell><Checkbox checked={bike.get('isAvailable')}/></TableCell>
         <TableCell>
+          <EditImageButton onEdit={this.openBikeEditDialog(bike)}/>
           <DeleteImageButton onDelete={this.handleBikeDeleteClick(bike.get('id'))}/>
         </TableCell>
       </TableRow>
@@ -97,7 +103,7 @@ export default class BikesManageList extends Component {
 
   render() {
     const { bikes, location } = this.props;
-    const { showCreateDialog } = this.state;
+    const { showCreateDialog, showEditDialog, bikeToEdit } = this.state;
 
     return (
       <div>
@@ -111,6 +117,15 @@ export default class BikesManageList extends Component {
             totalCount={bikes.get('totalCount')}/>
         </div>
         {showCreateDialog && <EditBikeDialog location={location} onClose={this.closeCreateBikeDialog}/>}
+        {showEditDialog &&
+          <EditBikeDialog
+            location={location}
+            initialValues={{
+              ...bikeToEdit.toJS(),
+              image: bikeToEdit.get('imageUrl')
+            }}
+            onClose={this.closeEditBikeDialog}/>
+        }
       </div>
     );
   }
