@@ -1,0 +1,25 @@
+.bike-card {
+  cursor: pointer;
+
+  .card-image {
+    height: 0;
+    padding-top: 56.25%;
+    background-size: contain;
+  }
+
+  .bike-props {
+    display: flex;
+    align-items: center;
+  }
+
+  .prop-name {
+    font-weight: 600;
+    width: 60px;
+  }
+
+  .bike-color {
+    width: 20%;
+    height: 25px;
+    display: inline-block;
+  }
+}
