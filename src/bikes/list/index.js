@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import BikeCard from './bikeCard';
 import shortid from 'shortid';
 import './index.scss';
+import BikesFilters from './filters';
 
 @connect(selector, dispatch => ({
   fetchBikes: bindActionCreators(actions.fetchBikes, dispatch)
@@ -34,10 +35,13 @@ export default class BikesList extends Component {
   }
 
   render() {
-    const { bikes } = this.props;
+    const { bikes, location } = this.props;
 
     return (
       <div>
+        <div>
+          <BikesFilters location={location}/>
+        </div>
         <div className='cards-container'>
           {bikes.get('data').map((bike) => <BikeCard key={shortid.generate()} bike={bike}/>)}
         </div>

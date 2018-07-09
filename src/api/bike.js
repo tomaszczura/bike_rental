@@ -1,11 +1,23 @@
 import { authHeaders, http, prepareSearchPageParams } from './utils';
 import { transformBike } from '../transformers/bike';
 
-export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, search, onlyAvailable }) {
+export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, search, onlyAvailable, minWeight, maxWeight, color }) {
   let url = `/bikes?${prepareSearchPageParams({ page, pageSize, order, orderBy, search })}`;
 
   if (onlyAvailable) {
     url = `${url}&only_available=${onlyAvailable}`;
+  }
+
+  if (minWeight) {
+    url = `${url}&min_weight=${minWeight}`;
+  }
+
+  if (maxWeight) {
+    url = `${url}&max_weight=${maxWeight}`;
+  }
+
+  if (color) {
+    url = `${url}&color=${encodeURIComponent(color)}`;
   }
 
   const { data } = await http.get(url, authHeaders());

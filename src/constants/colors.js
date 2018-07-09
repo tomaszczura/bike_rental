@@ -14,3 +14,8 @@ export const Colors = [
   { label: 'Brown', value: '#6D4C41' },
   { label: 'Grey', value: '#757575' },
 ];
+
+export const ColorsWithEmpty = [
+  { label: 'None', value: '' },
+  ...Colors
+];

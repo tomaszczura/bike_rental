@@ -11,18 +11,23 @@ export default class SelectInput extends Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
     label: PropTypes.string,
+    labelOnDown: PropTypes.bool,
     values: PropTypes.array,
     meta: PropTypes.object,
     renderOption: PropTypes.func.isRequired,
     renderValue: PropTypes.func.isRequired
   };
 
+  static defaultProps = {
+    meta: {}
+  };
+
   render() {
-    const { values, input, meta: { touched, error }, label, renderValue, renderOption } = this.props;
+    const { values, input, meta: { touched, error }, label, renderValue, renderOption, labelOnDown } = this.props;
 
     return (
       <FormControl error={touched && error ? error : null}>
-        <InputLabel htmlFor={input.name}>{label}</InputLabel>
+        {!labelOnDown && <InputLabel htmlFor={input.name}>{label}</InputLabel>}
         <Select
           {...input}
           MenuProps={{
@@ -37,6 +42,7 @@ export default class SelectInput extends Component {
           {values.map((value, index) => <MenuItem key={index} value={value.value}>{renderOption(value.value)}</MenuItem>)}
         </Select>
         {touched && error && <FormHelperText>{error}</FormHelperText>}
+        {labelOnDown && <FormHelperText>{label}</FormHelperText>}
       </FormControl>
     );
   }

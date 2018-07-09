@@ -4,7 +4,6 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import DialogBase from '../../../common/dialogBase';
 import { CheckboxField, TextField } from '../../../common/formInputs';
-import SelectInput from '../../../common/selectInput';
 import { Colors } from '../../../constants/colors';
 import './index.scss';
 import ImageInput from '../../../common/imageInput';
@@ -13,6 +12,7 @@ import * as actions from './actions';
 import * as listActions from '../list/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ColorSelect from '../../../common/colorSelect';
 
 const validate = (values) => {
   const errors = {};
@@ -52,10 +52,6 @@ export default class EditBikeDialog extends Component {
     this.props.onClose();
   };
 
-  renderColorSelect = (value) => <div className='select-color' style={{ backgroundColor: value }} />;
-
-  renderColorValue = (value) => <div className='select-color' style={{ backgroundColor: value }} />;
-
   render() {
     const { handleSubmit, onClose, edit } = this.props;
 
@@ -82,13 +78,7 @@ export default class EditBikeDialog extends Component {
                 min='0'/>
             </div>
             <div className='input-container'>
-              <Field
-                component={SelectInput}
-                label='Color'
-                name='color'
-                renderValue={this.renderColorValue}
-                renderOption={this.renderColorSelect}
-                values={Colors}/>
+              <Field component={ColorSelect} name='color'/>
             </div>
             <div className='input-container'>
               <Field component={CheckboxField} label='Is available' name='isAvailable'/>

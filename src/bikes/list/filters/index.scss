@@ -1,0 +1,38 @@
+.bikes-filters-container {
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: space-between;
+
+  .filters {
+    display: flex;
+  }
+
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .search-field {
+    margin-right: 10px;
+  }
+
+  .filter-fields {
+    display: flex;
+
+    .filter-input {
+
+      & > div {
+        width: 100px;
+      }
+
+      & + .filter-input {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .filter-color {
+    margin-left: 10px;
+    & > div {
+      width: 150px;
+    }
+  }
+}
