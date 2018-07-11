@@ -45,18 +45,26 @@ export default class EditBikeDialog extends Component {
     onClose: PropTypes.func
   };
 
+  state = {};
+
   onSubmit = async (form) => {
-    const values = form.toJS();
-    await this.props.persistBike(values);
-    await this.props.fetchBikes(this.props.location.query);
-    this.props.onClose();
+    try {
+      this.setState({ loading: true });
+      const values = form.toJS();
+      await this.props.persistBike(values);
+      await this.props.fetchBikes(this.props.location.query);
+      this.props.onClose();
+      this.setState({ loading: false });
+    } catch (error) {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
     const { handleSubmit, onClose, edit } = this.props;
 
     return (
-      <DialogBase title={edit ? 'Edit Bike' : 'Create Bike'} submitText='Save' onClose={onClose} onSubmit={handleSubmit(this.onSubmit)}>
+      <DialogBase loading={this.state.loading} title={edit ? 'Edit Bike' : 'Create Bike'} submitText='Save' onClose={onClose} onSubmit={handleSubmit(this.onSubmit)}>
         <div className='form-container'>
           <div className='bike-image'>
             <Field component={ImageInput} name='image'/>

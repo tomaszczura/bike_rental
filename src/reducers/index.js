@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 import { routerMiddleware, routerReducer as router } from 'react-router-redux';
 import { reducer as form } from 'redux-form/immutable';
 import dataReducer from './data';
+import appReducer from './app';
 
 export function createCustomStore(history) {
   const middleware = [];
@@ -13,6 +14,7 @@ export function createCustomStore(history) {
   // Create the store
   return newCreateStore(
     combineReducers({
+      app: appReducer,
       form,
       data: dataReducer,
       router,

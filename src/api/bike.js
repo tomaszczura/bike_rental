@@ -55,3 +55,18 @@ export async function persistBike({ id, model, weight, color, location, image, i
   const body = await method(url, formData, authHeaders({ 'Content-Type': 'multipart/form-data' }));
   return transformBike(body.data);
 }
+
+export async function bookBike({ bikeId, startDate, endDate }) {
+  const url = `/bikes/${bikeId}/bookings`;
+  const params = {
+    from: startDate,
+    to: endDate
+  };
+
+  const body = await http.post(url, params, authHeaders());
+}
+
+export async function deleteBikeBooking({ bookingId }) {
+  const url = `/bookings/${bookingId}`;
+  const body = await http.delete(url, authHeaders());
+}

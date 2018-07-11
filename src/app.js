@@ -8,7 +8,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './header';
 import * as actions from './actions/user';
+import * as appActions from './actions';
 import * as session from './utils/session';
+import Snackbar from '@material-ui/core/Snackbar';
+import selector from './selector';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const theme = createMuiTheme({
   palette: {
@@ -28,14 +33,20 @@ const theme = createMuiTheme({
   }
 });
 
-@connect(null, dispatch => ({
-  fetchUserProfile: bindActionCreators(actions.fetchUser, dispatch)
+@connect(selector, dispatch => ({
+  fetchUserProfile: bindActionCreators(actions.fetchUser, dispatch),
+  closeSnackbar: bindActionCreators(appActions.closeSnackbar, dispatch)
 }))
 class App extends Component {
   static propTypes = {
+    closeSnackbar: PropTypes.func,
+    snackbarOpened: PropTypes.bool,
+    snackbarMessage: PropTypes.string,
     children: PropTypes.node,
     fetchUserProfile: PropTypes.func
   };
+
+  state = {};
 
   componentDidMount() {
     const savedUser = session.getSavedUser();
@@ -45,7 +56,7 @@ class App extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, closeSnackbar, snackbarMessage, snackbarOpened } = this.props;
 
     return (
       <div>
@@ -55,6 +66,20 @@ class App extends Component {
             <div className='main-page-container'>
               {children}
             </div>
+            <Snackbar
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+              autoHideDuration={3000}
+              open={snackbarOpened}
+              onClose={closeSnackbar}
+              message={<span id='message-id'>{snackbarMessage}</span>}
+              action={[
+                <IconButton
+                  key='close'
+                  aria-label='Close'
+                  color='inherit'
+                  onClick={closeSnackbar}>
+                  <CloseIcon />
+                </IconButton>]}/>
           </CssBaseline>
         </MuiThemeProvider>
       </div>

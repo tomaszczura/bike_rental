@@ -10,6 +10,8 @@ import DialogBase from '../../common/dialogBase';
 import { isValidEmail } from '../../utils/validate';
 import SelectInput from '../../common/selectInput';
 import { UserRolesSelect } from '../../constants/userRoles';
+import { getErrorCode } from '../../utils/error';
+import { Errors } from '../../user/registerDialog/errors';
 
 const validate = (values) => {
   const errors = {};
@@ -44,20 +46,38 @@ export default class EditUserDialog extends Component {
     onClose: PropTypes.func
   };
 
+  state = {};
+
   onSubmit = async (form) => {
-    const values = form.toJS();
-    await this.props.persistUser(values);
-    await this.props.fetchUsers(this.props.location.query);
-    this.props.onClose();
+    try {
+      this.setState({ error: '', loading: true });
+      const values = form.toJS();
+      await this.props.persistUser(values);
+      await this.props.fetchUsers(this.props.location.query);
+      this.setState({ loading: false });
+      this.props.onClose();
+    } catch (error) {
+      this.resolveError(error);
+    }
+  };
+
+  resolveError = (error) => {
+    const errorCode = getErrorCode(error);
+    let errorMessage = 'Unknown error';
+    if (errorCode === Errors.EMAIL_TAKEN) {
+      errorMessage = 'Email already taken';
+    }
+    this.setState({ error: errorMessage, loading: false });
   };
 
   renderRoleSelect = (value) => <div>{value}</div>;
 
   render() {
     const { handleSubmit, onClose, edit } = this.props;
+    const { error, loading } = this.state;
 
     return (
-      <DialogBase title={edit ? 'Edit User' : 'Create User'} submitText='Save' onClose={onClose} onSubmit={handleSubmit(this.onSubmit)}>
+      <DialogBase error={error} loading={loading} title={edit ? 'Edit User' : 'Create User'} submitText='Save' onClose={onClose} onSubmit={handleSubmit(this.onSubmit)}>
         <div>
           <div className='input-container'>
             <Field disabled={edit} label='E-mail' component={TextField} name='email'/>
