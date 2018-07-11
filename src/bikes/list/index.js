@@ -73,7 +73,7 @@ export default class BikesList extends Component {
           <BikesFilters location={location}/>
         </div>
         <div key={shortid.generate()} className='cards-container'>
-          {bikes.get('data').map((bike) => <BikeCard key={shortid.generate()} bike={bike}/>)}
+          {bikes.get('data').map((bike) => <BikeCard key={shortid.generate()} location={location} bike={bike}/>)}
         </div>
         <div>
           <Table>
