@@ -37,6 +37,7 @@ export default class SelectInput extends Component {
               }
             }
           }}
+          value={input.value || ''}
           renderValue={value => renderValue(value)}
           input={<Input id={input.name}/>}>
           {values.map((value, index) => <MenuItem key={index} value={value.value}>{renderOption(value.value)}</MenuItem>)}

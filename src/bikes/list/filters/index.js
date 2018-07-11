@@ -10,6 +10,8 @@ import './index.scss';
 import FormHelperText from '@material-ui/core/es/FormHelperText/FormHelperText';
 import ColorSelect from '../../../common/colorSelect';
 import Button from '@material-ui/core/Button';
+import DateRangeInput, { dateFormat } from '../../../common/dateRangeInput';
+import moment from 'moment';
 
 @connect(null, dispatch => ({
   routerPush: bindActionCreators(push, dispatch)
@@ -23,12 +25,14 @@ export default class BikesFilters extends Component {
   constructor(props) {
     super(props);
 
-    const { location: { query: { search, minWeight, maxWeight, color } } } = this.props;
+    const { location: { query: { search, minWeight, maxWeight, color, startDate, endDate } } } = this.props;
     this.state = {
       search: search || '',
       minWeight,
       maxWeight,
-      color
+      color,
+      startDate: startDate ? moment(startDate, dateFormat) : moment(),
+      endDate: endDate ? moment(endDate, dateFormat) : moment().add(1, 'months')
     };
   }
 
@@ -39,6 +43,8 @@ export default class BikesFilters extends Component {
     newQuery.minWeight = this.state.minWeight;
     newQuery.maxWeight = this.state.maxWeight;
     newQuery.color = this.state.color;
+    newQuery.startDate = moment(this.state.startDate).format(dateFormat);
+    newQuery.endDate = moment(this.state.endDate).format(dateFormat);
 
     this.props.routerPush({
       ...location,
@@ -51,7 +57,9 @@ export default class BikesFilters extends Component {
       search: '',
       minWeight: '',
       maxWeight: '',
-      color: ''
+      color: '',
+      startDate: moment(),
+      endDate: moment().add(1, 'months'),
     }, () => this.onSearchClick());
   };
 
@@ -60,6 +68,10 @@ export default class BikesFilters extends Component {
       [event.target.name || event.target.id]: event.target.value
     });
   };
+
+  handleStartDateChange = (value) => this.setState({ startDate: value });
+
+  handleEndDateChange = (value) => this.setState({ endDate: value });
 
   render() {
     return (
@@ -99,6 +111,13 @@ export default class BikesFilters extends Component {
             </div>
             <div className='filter-color'>
               <ColorSelect allowEmpty labelOnDown input={{ value: this.state.color, onChange: this.handleChange, name: 'color' }}/>
+            </div>
+            <div>
+              <DateRangeInput
+                endDate={this.state.endDate}
+                startDate={this.state.startDate}
+                onStartDateChange={this.handleStartDateChange}
+                onEndDateChange={this.handleEndDateChange}/>
             </div>
           </div>
         </div>

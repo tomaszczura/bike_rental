@@ -1,0 +1,14 @@
+.datepicker-range-container {
+  display: flex;
+
+  .picker {
+    margin-right: 10px;
+  }
+
+  .react-datepicker__input-container {
+
+    & > div {
+      width: 100px;
+    }
+  }
+}

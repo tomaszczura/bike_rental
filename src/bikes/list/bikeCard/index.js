@@ -21,7 +21,7 @@ export default class BikeCard extends Component {
           <CardMedia className='card-image' image={bike.get('imageUrl')}/>
           <CardContent>
             <Typography gutterBottom variant='headline' component='h2'>{bike.get('model')}</Typography>
-            <Typography component='p'>
+            <Typography component='div'>
               <div className='bike-props'>
                 <span className='prop-name'>Color:</span>
                 <div className='bike-color' style={{ backgroundColor: bike.get('color') }}/>
