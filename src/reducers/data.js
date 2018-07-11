@@ -7,11 +7,13 @@ export default (state = fromJS({
   profile: {},
   entities: {
     bikes: {},
-    users: {}
+    users: {},
+    bookings: {}
   },
   relations: {
     queryHasBikes: {},
-    queryHasUsers: {}
+    queryHasUsers: {},
+    userHasBookings: {}
   }
 }), action) => {
   switch (action.type) {
@@ -36,6 +38,13 @@ export default (state = fromJS({
       return relationsDataFetchSuccess(state, 'queryHasBikes', 'bikes', hashQuery(action.query), action.data);
     case bikeActions.FETCH_BIKES_ERROR:
       return relationsDataFetchError(state, 'queryHasBikes', hashQuery(action.query), action.error);
+
+    case userActions.FETCH_USER_BOOKINGS_START:
+      return relationsDataFetchStart(state, 'userHasBookings', hashQuery(action.query));
+    case userActions.FETCH_USER_BOOKINGS_SUCCESS:
+      return relationsDataFetchSuccess(state, 'userHasBookings', 'bookings', hashQuery(action.query), action.data);
+    case userActions.FETCH_USER_BOOKINGS_ERROR:
+      return relationsDataFetchError(state, 'userHasBookings', hashQuery(action.query), action.error);
 
     default:
       return state;

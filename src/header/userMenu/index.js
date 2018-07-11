@@ -39,6 +39,10 @@ export default class UserMenu extends Component {
     this.setState({ anchorEl: null });
   };
 
+  handleBookingsClick = () => {
+    this.props.routerPush(`/${this.props.userProfile.get('id')}/bookings`);
+  };
+
   render() {
     const { userProfile } = this.props;
     const { anchorEl } = this.state;
@@ -47,6 +51,7 @@ export default class UserMenu extends Component {
       <div>
         <Button onClick={this.handleClick}>{userProfile.get('email', 'User')}</Button>
         <Menu id='userMenu' anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
+          <MenuItem onClick={this.handleBookingsClick}>Bookings</MenuItem>
           <MenuItem onClick={this.onLogoutClick}>Logout</MenuItem>
         </Menu>
       </div>

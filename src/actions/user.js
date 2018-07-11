@@ -26,6 +26,10 @@ export const DELETE_USER_START = 'USER/DELETE_USER_START';
 export const DELETE_USER_SUCCESS = 'USER/DELETE_USER_SUCCESS';
 export const DELETE_USER_ERROR = 'USER/DELETE_USER_ERROR';
 
+export const FETCH_USER_BOOKINGS_START = 'BIKE/FETCH_USERS_BOOKINGS_START';
+export const FETCH_USER_BOOKINGS_SUCCESS = 'BIKE/FETCH_USERS_BOOKINGS_SUCCESS';
+export const FETCH_USER_BOOKINGS_ERROR = 'BIKE/FETCH_USERS_BOOKINGS_ERROR';
+
 export const LOGOUT_USER = 'USER/LOGOUT_USER';
 
 export const registerUser = apiAction(api.registerUser, REGISTER_USER_START, REGISTER_USER_SUCCESS, REGISTER_USER_ERROR);
@@ -34,6 +38,7 @@ export const fetchUser = apiAction(api.fetchCurrentUser, USER_PROFILE_FETCH_STAR
 export const fetchUsers = apiAction(api.fetchUsers, FETCH_USERS_START, FETCH_USERS_SUCCESS, FETCH_USERS_ERROR);
 export const persistUser = apiAction(api.persistUser, PERSIST_USER_START, PERSIST_USER_SUCCESS, PERSIST_USER_ERROR);
 export const deleteUser = apiAction(api.deleteUser, DELETE_USER_START, DELETE_USER_SUCCESS, DELETE_USER_ERROR);
+export const fetchUserBookings = apiAction(api.fetchUserBookings, FETCH_USER_BOOKINGS_START, FETCH_USER_BOOKINGS_SUCCESS, FETCH_USER_BOOKINGS_ERROR);
 
 export function handleLogin(user) {
   session.saveUser(user);

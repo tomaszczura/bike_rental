@@ -1,5 +1,6 @@
 import { authHeaders, http, prepareSearchPageParams } from './utils';
 import { transformUser, transformUserProfile } from '../transformers/user';
+import { transformBooking } from '../transformers/booking';
 
 export async function registerUser({ login, password, passwordConfirmation }) {
   const params = {
@@ -54,4 +55,11 @@ export async function persistUser({ id, email, password, passwordConfirmation, r
 export async function deleteUser({ userId }) {
   const url = `/users/${userId}`;
   await http.delete(url, authHeaders());
+}
+
+export async function fetchUserBookings({ userId, page = 0, pageSize = 25, order, orderBy, search, type }) {
+  const url = `/users/${userId}/bookings?${prepareSearchPageParams({ page, pageSize, order, orderBy, search })}&type=${type}`;
+  const { data } = await http.get(url, authHeaders());
+  data.data = data.data.map(transformBooking);
+  return data;
 }
