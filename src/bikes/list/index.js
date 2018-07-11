@@ -10,15 +10,20 @@ import BikeCard from './bikeCard';
 import shortid from 'shortid';
 import './index.scss';
 import BikesFilters from './filters';
+import { push } from 'react-router-redux';
+import TablePagination from '@material-ui/core/TablePagination';
+import Table from '@material-ui/core/Table';
 
 @connect(selector, dispatch => ({
-  fetchBikes: bindActionCreators(actions.fetchBikes, dispatch)
+  fetchBikes: bindActionCreators(actions.fetchBikes, dispatch),
+  routerPush: bindActionCreators(push, dispatch)
 }))
 export default class BikesList extends Component {
   static propTypes = {
     bikes: ImmutablePropTypes.map,
     fetchBikes: PropTypes.func,
-    location: PropTypes.object
+    location: PropTypes.object,
+    routerPush: PropTypes.func
   };
 
   componentDidMount() {
@@ -34,16 +39,52 @@ export default class BikesList extends Component {
     }
   }
 
+  onPageChange = (event, page) => {
+    if (event !== null) {
+      const { location, location: { query } } = this.props;
+      this.props.routerPush({
+        ...location,
+        query: {
+          ...query,
+          page
+        }
+      });
+    }
+  };
+
+  onRowsPerPageChange = event => {
+    const { location, location: { query } } = this.props;
+    this.props.routerPush({
+      ...location,
+      query: {
+        ...query,
+        pageSize: event.target.value
+      }
+    });
+  };
+
   render() {
-    const { bikes, location } = this.props;
+    const { bikes, location, location: { query } } = this.props;
+    const totalCount = bikes.get('totalCount');
 
     return (
       <div>
         <div>
           <BikesFilters location={location}/>
         </div>
-        <div className='cards-container'>
+        <div key={shortid.generate()} className='cards-container'>
           {bikes.get('data').map((bike) => <BikeCard key={shortid.generate()} bike={bike}/>)}
+        </div>
+        <div>
+          <Table>
+            <TablePagination
+              count={totalCount || 0}
+              rowsPerPage={parseInt(query.pageSize, 10) || 27}
+              rowsPerPageOptions={[9, 27, 45]}
+              page={parseInt(query.page, 10) || 0}
+              onChangePage={this.onPageChange}
+              onChangeRowsPerPage={this.onRowsPerPageChange}/>
+          </Table>
         </div>
       </div>
     );
