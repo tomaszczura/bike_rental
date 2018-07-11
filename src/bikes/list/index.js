@@ -13,6 +13,7 @@ import BikesFilters from './filters';
 import { push } from 'react-router-redux';
 import TablePagination from '@material-ui/core/TablePagination';
 import Table from '@material-ui/core/Table';
+import TableRow from '@material-ui/core/TableRow';
 
 @connect(selector, dispatch => ({
   fetchBikes: bindActionCreators(actions.fetchBikes, dispatch),
@@ -77,13 +78,15 @@ export default class BikesList extends Component {
         </div>
         <div>
           <Table>
-            <TablePagination
-              count={totalCount || 0}
-              rowsPerPage={parseInt(query.pageSize, 10) || 27}
-              rowsPerPageOptions={[9, 27, 45]}
-              page={parseInt(query.page, 10) || 0}
-              onChangePage={this.onPageChange}
-              onChangeRowsPerPage={this.onRowsPerPageChange}/>
+            <TableRow>
+              <TablePagination
+                count={totalCount || 0}
+                rowsPerPage={parseInt(query.pageSize, 10) || 27}
+                rowsPerPageOptions={[9, 27, 45]}
+                page={parseInt(query.page, 10) || 0}
+                onChangePage={this.onPageChange}
+                onChangeRowsPerPage={this.onRowsPerPageChange}/>
+            </TableRow>
           </Table>
         </div>
       </div>

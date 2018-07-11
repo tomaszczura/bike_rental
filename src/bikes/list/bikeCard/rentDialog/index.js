@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getErrorCode } from '../../../../utils/error';
 import { Errors } from './errors';
-import Snackbar from '@material-ui/core/Snackbar';
+import './_datepicker.scss';
 
 @connect(null, dispatch => ({
   bookBike: bindActionCreators(actions.bookBike, dispatch)
@@ -59,6 +59,11 @@ export default class RentBikeDialog extends Component {
     }
   };
 
+  // handleFocusChange = (focusedInput) => {
+  //   if (!focusedInput) return; // doesn't update the focusedInput if it is trying to close the DRP
+  //   this.setState({ focusedInput });
+  // };
+
   render() {
     const { bike, onClose } = this.props;
     const { error, loading } = this.state;
@@ -76,6 +81,16 @@ export default class RentBikeDialog extends Component {
             startDate={this.state.startDate}
             onStartDateChange={this.handleStartDateChange}
             onEndDateChange={this.handleEndDateChange}/>
+          {/* <DateRangePicker
+            startDate={this.state.startDate} // momentPropTypes.momentObj or null,
+            startDateId="startDate" // PropTypes.string.isRequired,
+            endDate={this.state.endDate} // momentPropTypes.momentObj or null,
+            endDateId="endDate" // PropTypes.string.isRequired,
+            numberOfMonths={1}
+            onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} // PropTypes.func.isRequired,
+            focusedInput={this.state.focusedInput || 'startDate'} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+            onFocusChange={this.handleFocusChange} // PropTypes.func.isRequired,
+          /> */}
         </div>
       </DialogBase>
     );

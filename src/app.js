@@ -14,6 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import selector from './selector';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import 'react-dates/initialize';
 
 const theme = createMuiTheme({
   palette: {
