@@ -7,11 +7,19 @@ import { List } from 'immutable';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import DeleteImageButton from '../../common/deleteImgBtn';
+import * as actions from '../../actions/bike';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
+@connect(null, dispatch => ({
+  deleteBikeBooking: bindActionCreators(actions.deleteBikeBooking, dispatch)
+}))
 export default class BookingsListForUser extends Component {
   static propTypes = {
+    deleteBikeBooking: PropTypes.func,
     location: PropTypes.object.isRequired,
-    bookings: ImmutablePropTypes.map.isRequired
+    bookings: ImmutablePropTypes.map.isRequired,
+    onDeleted: PropTypes.func
   };
 
   constructor(props) {
@@ -25,8 +33,9 @@ export default class BookingsListForUser extends Component {
     ];
   }
 
-  handleBookingDeleteClick = (bookingId) => {
-
+  handleBookingDeleteClick = (bookingId) => async () => {
+    await this.props.deleteBikeBooking({ bookingId });
+    this.props.onDeleted && this.props.onDeleted();
   };
 
   renderBookingRows = () => {

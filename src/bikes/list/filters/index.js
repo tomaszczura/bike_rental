@@ -39,6 +39,7 @@ export default class BikesFilters extends Component {
   onSearchClick = () => {
     const { location, location: { query } } = this.props;
     const newQuery = { ...query };
+    newQuery.timestamp = new Date().getTime(); // to refresh when no param changed
     newQuery.search = this.state.search;
     newQuery.minWeight = this.state.minWeight;
     newQuery.maxWeight = this.state.maxWeight;

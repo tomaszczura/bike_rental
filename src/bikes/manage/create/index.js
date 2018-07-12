@@ -53,8 +53,8 @@ export default class EditBikeDialog extends Component {
       const values = form.toJS();
       await this.props.persistBike(values);
       await this.props.fetchBikes(this.props.location.query);
-      this.props.onClose();
       this.setState({ loading: false });
+      this.props.onClose();
     } catch (error) {
       this.setState({ loading: false });
     }

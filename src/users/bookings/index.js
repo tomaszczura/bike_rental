@@ -52,6 +52,11 @@ export default class UsersBookingList extends Component {
     });
   };
 
+  handleBookingDelete = async () => {
+    const { location, params } = this.props;
+    this.props.fetchUserBookings(params.userId, location.query);
+  };
+
   render() {
     const { bookings, location, location: { query: { type = BookingType.ACTIVE } } } = this.props;
 
@@ -63,7 +68,7 @@ export default class UsersBookingList extends Component {
           <Tab label='Past' value={BookingType.PAST}/>
         </Tabs>
         <div>
-          <BookingsListForUser bookings={bookings} location={location}/>
+          <BookingsListForUser bookings={bookings} location={location} onDeleted={this.handleBookingDelete}/>
         </div>
       </div>
     );
