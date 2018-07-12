@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import DateRangeInput, { dateInputFormat } from '../../../../common/dateRangeInput';
-import moment from 'moment';
+import { dateInputFormat } from '../../../../common/dateRangeInput';
+import Moment from 'moment';
 import DialogBase from '../../../../common/dialogBase';
 import * as actions from './actions';
 import './index.scss';
@@ -13,6 +13,11 @@ import { Errors } from './errors';
 import './_datepicker.scss';
 import { serverDateFormat } from '../../../../api/utils';
 import * as listActions from '../../actions';
+import DateRangePicker from 'react-daterange-picker';
+import { extendMoment } from 'moment-range';
+import './_calendar.scss';
+
+const moment = extendMoment(Moment);
 
 @connect(null, dispatch => ({
   bookBike: bindActionCreators(actions.bookBike, dispatch),
@@ -31,9 +36,10 @@ export default class RentBikeDialog extends Component {
     super(props);
 
     const { location: { query: { startDate, endDate } } } = this.props;
+    const startDateMoment = startDate ? moment(startDate, dateInputFormat) : moment().startOf('day');
+    const endDateMoment = endDate ? moment(endDate, dateInputFormat) : moment().add(1, 'weeks').endOf('day');
     this.state = {
-      startDate: startDate ? moment(startDate, dateInputFormat) : moment(),
-      endDate: endDate ? moment(endDate, dateInputFormat) : moment().add(1, 'months')
+      dateRange: moment.range(startDateMoment, endDateMoment)
     };
   }
 
@@ -46,15 +52,11 @@ export default class RentBikeDialog extends Component {
     this.setState({ error: errorMessage, loading: false });
   };
 
-  handleStartDateChange = (value) => this.setState({ startDate: value });
-
-  handleEndDateChange = (value) => this.setState({ endDate: value });
-
   handleSubmit = async () => {
     try {
       this.setState({ error: '', loading: true });
-      const startDate = moment(this.state.startDate).format(serverDateFormat);
-      const endDate = moment(this.state.endDate).format(serverDateFormat);
+      const startDate = moment(this.state.dateRange.start).format(serverDateFormat);
+      const endDate = moment(this.state.dateRange.end).format(serverDateFormat);
       await this.props.bookBike({ bikeId: this.props.bike.get('id'), startDate, endDate });
       this.setState({ loading: false });
       this.props.fetchBikes(this.props.location.query);
@@ -64,14 +66,11 @@ export default class RentBikeDialog extends Component {
     }
   };
 
-  // handleFocusChange = (focusedInput) => {
-  //   if (!focusedInput) return; // doesn't update the focusedInput if it is trying to close the DRP
-  //   this.setState({ focusedInput });
-  // };
+  handleSelect = (range) => this.setState({ dateRange: range });
 
   render() {
     const { bike, onClose } = this.props;
-    const { error, loading } = this.state;
+    const { error, loading, dateRange } = this.state;
 
     return (
       <DialogBase error={error} loading={loading} title='Rent a bike' submitText='Save' onClose={onClose} onSubmit={this.handleSubmit}>
@@ -80,22 +79,11 @@ export default class RentBikeDialog extends Component {
           <div>{bike.get('model')}</div>
         </div>
         <div>
-          <DateRangeInput
-            inline
-            endDate={this.state.endDate}
-            startDate={this.state.startDate}
-            onStartDateChange={this.handleStartDateChange}
-            onEndDateChange={this.handleEndDateChange}/>
-          {/* <DateRangePicker
-            startDate={this.state.startDate} // momentPropTypes.momentObj or null,
-            startDateId="startDate" // PropTypes.string.isRequired,
-            endDate={this.state.endDate} // momentPropTypes.momentObj or null,
-            endDateId="endDate" // PropTypes.string.isRequired,
-            numberOfMonths={1}
-            onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} // PropTypes.func.isRequired,
-            focusedInput={this.state.focusedInput || 'startDate'} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-            onFocusChange={this.handleFocusChange} // PropTypes.func.isRequired,
-          /> */}
+          <div className='period'>{moment(dateRange.start).format(dateInputFormat)} - {moment(dateRange.end).format(dateInputFormat)}</div>
+          <DateRangePicker
+            minimumDate={moment().toDate()}
+            value={this.state.dateRange}
+            onSelect={this.handleSelect} />
         </div>
       </DialogBase>
     );
