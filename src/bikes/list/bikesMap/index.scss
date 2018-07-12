@@ -1,0 +1,19 @@
+.bike-marker-info {
+  img {
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: contain;
+    margin-right: 10px;
+  }
+  display: flex;
+  align-items: center;
+
+  .bike-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+}
+
+.bike-marker-buttons {
+  margin-top: 10px;
+}

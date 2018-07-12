@@ -18,9 +18,17 @@ export default class BikeCard extends Component {
 
   state = {};
 
-  showBikeRentDialog = () => this.setState({ showRentDialog: true });
+  componentDidMount() {
+    this.isCompMounted = true;
+  }
 
-  hideBikeRentDialog = () => this.setState({ showRentDialog: false });
+  componentWillUnmount() {
+    this.isCompMounted = false;
+  }
+
+  showBikeRentDialog = () => this.isCompMounted && this.setState({ showRentDialog: true });
+
+  hideBikeRentDialog = () => this.isCompMounted && this.setState({ showRentDialog: false });
 
   render() {
     const { bike, location } = this.props;

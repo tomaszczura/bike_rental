@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { GoogleMap, withGoogleMap } from 'react-google-maps';
 import shortid from 'shortid';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -8,18 +9,19 @@ import BikeMarker from './bikeMarker';
 @withGoogleMap
 export class MapWithBikes extends Component {
   static propTypes = {
+    location: PropTypes.object.isRequired,
     bikes: ImmutablePropTypes.list
   };
 
   state = {};
 
   render() {
-    const { bikes } = this.props;
-    
+    const { bikes, location } = this.props;
+
     let defaultCenter = { lat: 50.049683, lng: 19.944544 };
     if (bikes && bikes.size > 0) {
-      const location = bikes.getIn([0, 'location']);
-      defaultCenter = { lat: location.get('lat'), lng: location.get('lng') };
+      const markerLocation = bikes.getIn([0, 'location']);
+      defaultCenter = { lat: markerLocation.get('lat'), lng: markerLocation.get('lng') };
     }
 
     return (
@@ -31,7 +33,7 @@ export class MapWithBikes extends Component {
           averageCenter
           enableRetinaIcons
           gridSize={60}>
-          {bikes && bikes.map((bike) => <BikeMarker key={shortid.generate()} bike={bike}/>)}
+          {bikes && bikes.map((bike) => <BikeMarker location={location} key={shortid.generate()} bike={bike}/>)}
         </MarkerClusterer>
       </GoogleMap>
     );

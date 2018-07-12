@@ -56,8 +56,8 @@ export default class RentBikeDialog extends Component {
       const startDate = moment(this.state.startDate).format(serverDateFormat);
       const endDate = moment(this.state.endDate).format(serverDateFormat);
       await this.props.bookBike({ bikeId: this.props.bike.get('id'), startDate, endDate });
-      this.props.fetchBikes(this.props.location.query);
       this.setState({ loading: false });
+      this.props.fetchBikes(this.props.location.query);
       this.props.onClose();
     } catch (error) {
       this.resolveError(error);
