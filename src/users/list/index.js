@@ -16,15 +16,18 @@ import SearchBar from '../../common/searchBar';
 import DataTable from '../../common/table';
 import EditUserDialog from '../create';
 import { UserRoles } from '../../constants/userRoles';
+import { push } from 'react-router-redux';
 
 @connect(selector, dispatch => ({
   fetchUsers: bindActionCreators(actions.fetchUsers, dispatch),
-  deleteUser: bindActionCreators(actions.deleteUser, dispatch)
+  deleteUser: bindActionCreators(actions.deleteUser, dispatch),
+  routerPush: bindActionCreators(push, dispatch)
 }))
 export default class UsersManageList extends Component {
   static propTypes = {
     users: ImmutablePropTypes.map,
     deleteUser: PropTypes.func,
+    routerPush: PropTypes.func,
     fetchUsers: PropTypes.func,
     location: PropTypes.object
   };
@@ -60,7 +63,7 @@ export default class UsersManageList extends Component {
   closeCreateUserDialog = () => this.setState({ showCreateDialog: false });
 
   handleUserClick = (user) => {
-    console.log(`Click user: ${user.get('id')}`);
+    this.props.routerPush(`/${user.get('id')}/bookings`);
   };
 
   handleUserDeleteClick = (id) => async () => {
@@ -68,7 +71,11 @@ export default class UsersManageList extends Component {
     this.props.fetchUsers(this.props.location.query);
   };
 
-  openUserEditDialog = (user) => async () => this.setState({ showEditDialog: true, userToEdit: user });
+  openUserEditDialog = (user) => async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState({ showEditDialog: true, userToEdit: user });
+  };
 
   closeEditUserDialog = () => this.setState({ showEditDialog: false });
 

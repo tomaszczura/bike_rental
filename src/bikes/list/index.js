@@ -6,17 +6,20 @@ import { bindActionCreators } from 'redux';
 import { hashQuery } from '../../reducers/utils';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
-import BikeCard from './bikeCard';
-import shortid from 'shortid';
 import './index.scss';
 import BikesFilters from './filters';
 import { push } from 'react-router-redux';
-import TablePagination from '@material-ui/core/TablePagination';
-import Table from '@material-ui/core/Table';
-import TableRow from '@material-ui/core/TableRow';
-import TableFooter from '@material-ui/core/TableFooter';
 import { dateInputFormat } from '../../common/dateRangeInput';
 import moment from 'moment';
+import BikesCards from './bikesCards';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import BikesMapContainer from './bikesMap';
+
+const BikesTabs = {
+  LIST: 'LIST',
+  MAP: 'MAP'
+};
 
 @connect(selector, dispatch => ({
   fetchBikes: bindActionCreators(actions.fetchBikes, dispatch),
@@ -28,6 +31,10 @@ export default class BikesList extends Component {
     fetchBikes: PropTypes.func,
     location: PropTypes.object,
     routerPush: PropTypes.func
+  };
+
+  state = {
+    tab: BikesTabs.LIST
   };
 
   componentDidMount() {
@@ -46,64 +53,40 @@ export default class BikesList extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState, prevContext) { // eslint-disable-line no-unused-vars
+  async componentDidUpdate(prevProps, prevState, prevContext) { // eslint-disable-line no-unused-vars
     const currentQueryHash = hashQuery(this.props.location.query);
     const prevQueryHash = hashQuery(prevProps.location.query);
     if (prevQueryHash !== currentQueryHash) {
-      this.props.fetchBikes(this.props.location.query);
+      await this.props.fetchBikes(this.props.location.query);
     }
   }
 
-  onPageChange = (event, page) => {
-    if (event !== null) {
-      const { location, location: { query } } = this.props;
-      this.props.routerPush({
-        ...location,
-        query: {
-          ...query,
-          page
-        }
-      });
-    }
-  };
-
-  onRowsPerPageChange = event => {
+  handleTabChange = (event, tab) => {
     const { location, location: { query } } = this.props;
-    this.props.routerPush({
-      ...location,
-      query: {
-        ...query,
-        pageSize: event.target.value
-      }
-    });
+    const newQuery = { ...query };
+    newQuery.pageSize = tab === BikesTabs.MAP ? 250 : 27;
+    this.props.routerPush({ ...location, query: newQuery });
+    this.setState({ tab });
   };
 
   render() {
-    const { bikes, location, location: { query } } = this.props;
-    const totalCount = bikes.get('totalCount');
+    const { bikes, location } = this.props;
+    const { tab } = this.state;
 
     return (
       <div>
         <div>
           <BikesFilters location={location}/>
         </div>
-        <div key={shortid.generate()} className='cards-container'>
-          {bikes.get('data').map((bike) => <BikeCard key={shortid.generate()} location={location} bike={bike}/>)}
+        <div>
+          <Tabs value={this.state.tab} onChange={this.handleTabChange}>
+            <Tab label='List' value={BikesTabs.LIST}/>
+            <Tab label='Map' value={BikesTabs.MAP}/>
+          </Tabs>
         </div>
         <div>
-          <Table>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  count={totalCount || 0}
-                  rowsPerPage={parseInt(query.pageSize, 10) || 27}
-                  rowsPerPageOptions={[9, 27, 45]}
-                  page={parseInt(query.page, 10) || 0}
-                  onChangePage={this.onPageChange}
-                  onChangeRowsPerPage={this.onRowsPerPageChange}/>
-              </TableRow>
-            </TableFooter>
-          </Table>
+          {tab === BikesTabs.LIST && <BikesCards location={location} bikes={bikes}/>}
+          {tab === BikesTabs.MAP && <BikesMapContainer location={location} bikes={bikes}/>}
         </div>
       </div>
     );
