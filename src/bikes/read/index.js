@@ -11,6 +11,8 @@ import { hasError, isLoaded, isLoading } from '../../utils/data';
 import { getErrorCode } from '../../utils/error';
 import { ApiErrors } from '../../api/apiErrors';
 import { CustomGoogleMap } from '../../common/map';
+import { UserRoles } from '../../constants/userRoles';
+import BikeBookingsList from './bookings';
 
 @connect(selector, dispatch => ({
   fetchBike: bindActionCreators(actions.fetchBike, dispatch)
@@ -19,9 +21,11 @@ export default class BikeDetails extends Component {
   static propTypes = {
     bike: ImmutablePropTypes.map,
     fetchBike: PropTypes.func,
+    location: PropTypes.object,
     params: PropTypes.shape({
       bikeId: PropTypes.string
-    })
+    }),
+    userProfile: ImmutablePropTypes.map
   };
 
   componentDidMount() {
@@ -53,7 +57,8 @@ export default class BikeDetails extends Component {
   };
 
   render() {
-    const { bike } = this.props;
+    const { bike, userProfile, location } = this.props;
+    const isManager = userProfile.get('role') === UserRoles.MANAGER;
 
     return (
       <div className='bike-details-container'>
@@ -88,6 +93,7 @@ export default class BikeDetails extends Component {
                   marker={bike.get('location')}/>
               </div>
             </div>
+            {isManager && <BikeBookingsList location={location} bikeId={bike.get('id')}/>}
           </div>
         }
       </div>

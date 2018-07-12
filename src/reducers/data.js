@@ -18,6 +18,7 @@ export default (state = fromJS({
     bookings: {}
   },
   relations: {
+    bikeHasBookings: {},
     queryHasBikes: {},
     queryHasUsers: {},
     userHasBookings: {}
@@ -52,6 +53,13 @@ export default (state = fromJS({
       return fetchEntitySuccess(state, 'bikes', action.data);
     case bikeActions.FETCH_BIKE_ERROR:
       return fetchEntityError(state, 'bikes', action.bikeId, action.error);
+
+    case bikeActions.FETCH_BIKES_BOOKINGS_START:
+      return relationsDataFetchStart(state, 'bikeHasBookings', hashQuery(action.query));
+    case bikeActions.FETCH_BIKES_BOOKINGS_SUCCESS:
+      return relationsDataFetchSuccess(state, 'bikeHasBookings', 'bookings', hashQuery(action.query), action.data);
+    case bikeActions.FETCH_BIKES_BOOKINGS_ERROR:
+      return relationsDataFetchError(state, 'bikeHasBookings', hashQuery(action.query), action.error);
 
     case userActions.FETCH_USER_BOOKINGS_START:
       return relationsDataFetchStart(state, 'userHasBookings', hashQuery(action.query));

@@ -10,15 +10,18 @@ import DeleteImageButton from '../../common/deleteImgBtn';
 import * as actions from '../../actions/bike';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 @connect(null, dispatch => ({
-  deleteBikeBooking: bindActionCreators(actions.deleteBikeBooking, dispatch)
+  deleteBikeBooking: bindActionCreators(actions.deleteBikeBooking, dispatch),
+  routerPush: bindActionCreators(push, dispatch)
 }))
 export default class BookingsListForUser extends Component {
   static propTypes = {
     deleteBikeBooking: PropTypes.func,
     location: PropTypes.object.isRequired,
     bookings: ImmutablePropTypes.map.isRequired,
+    routerPush: PropTypes.func,
     onDeleted: PropTypes.func
   };
 
@@ -38,13 +41,18 @@ export default class BookingsListForUser extends Component {
     this.props.onDeleted && this.props.onDeleted();
   };
 
+  handleBikeClick = (bike) => {
+    this.props.routerPush(`/bikes/${bike.get('id')}`);
+  };
+
   renderBookingRows = () => {
     const { bookings } = this.props;
     return bookings.get('data', List()).map((booking) => (
       <TableRow
         hover
         tabIndex={-1}
-        key={`bookings${booking.get('id')}`}>
+        key={`bookings${booking.get('id')}`}
+        onClick={() => this.handleBikeClick(booking.get('bike'))}>
         <TableCell>
           <div className='row-with-image'>
             <img src={booking.getIn(['bike', 'imageUrl'])}/>

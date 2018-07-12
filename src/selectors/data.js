@@ -6,3 +6,4 @@ export const bookingsEntitiesSelector = state => state.getIn(['data', 'entities'
 export const bikesQueryHasEntitiesSelector = state => state.getIn(['data', 'relations', 'queryHasBikes']);
 export const usersQueryHasEntitiesSelector = state => state.getIn(['data', 'relations', 'queryHasUsers']);
 export const userHasBookingsEntitiesSelector = state => state.getIn(['data', 'relations', 'userHasBookings']);
+export const bikeHasBookingsEntitiesSelector = state => state.getIn(['data', 'relations', 'bikeHasBookings']);

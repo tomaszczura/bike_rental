@@ -35,3 +35,4 @@ export const fetchBike = apiAction(api.fetchBike, FETCH_BIKE_START, FETCH_BIKE_S
 export const deleteBike = apiAction(api.deleteBike, DELETE_BIKE_START, DELETE_BIKE_SUCCESS, DELETE_BIKE_ERROR);
 export const bookBike = apiAction(api.bookBike, CREATE_BIKE_BOOKING_START, CREATE_BIKE_BOOKING_SUCCESS, CREATE_BIKE_BOOKING_ERROR);
 export const deleteBikeBooking = apiAction(api.deleteBikeBooking, DELETE_BIKE_BOOKING_START, DELETE_BIKE_BOOKING_SUCCESS, DELETE_BIKE_BOOKING_ERROR);
+export const fetchBikeBookings = apiAction(api.fetchBikeBookings, FETCH_BIKES_BOOKINGS_START, FETCH_BIKES_BOOKINGS_SUCCESS, FETCH_BIKES_BOOKINGS_ERROR);

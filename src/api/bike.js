@@ -2,6 +2,8 @@ import { authHeaders, http, prepareSearchPageParams, serverDateFormat } from './
 import { transformBike } from '../transformers/bike';
 import { dateInputFormat } from '../common/dateRangeInput';
 import moment from 'moment';
+import { BookingType } from '../constants/bookingsType';
+import { transformBooking } from '../transformers/booking';
 
 export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, search, onlyAvailable, minWeight, maxWeight, color, startDate, endDate }) {
   let url = `/bikes?${prepareSearchPageParams({ page, pageSize, order, orderBy, search })}`;
@@ -85,4 +87,11 @@ export async function fetchBike({ bikeId }) {
   const url = `/bikes/${bikeId}`;
   const { data } = await http.get(url, authHeaders());
   return transformBike(data);
+}
+
+export async function fetchBikeBookings({ bikeId, page = 0, pageSize = 25, order, orderBy, search, type }) {
+  const url = `/bikes/${bikeId}/bookings?${prepareSearchPageParams({ page, pageSize, order, orderBy, search })}&type=${type || BookingType.ACTIVE}`;
+  const { data } = await http.get(url, authHeaders());
+  data.data = data.data.map(transformBooking);
+  return data;
 }
