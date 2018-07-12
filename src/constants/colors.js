@@ -13,6 +13,8 @@ export const Colors = [
   { label: 'Orange', value: '#FB8C00' },
   { label: 'Brown', value: '#6D4C41' },
   { label: 'Grey', value: '#757575' },
+  { label: 'Black', value: '#000000' },
+  { label: 'White', value: '#FFFFFF' },
 ];
 
 export const ColorsWithEmpty = [

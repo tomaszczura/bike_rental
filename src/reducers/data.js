@@ -40,6 +40,9 @@ export default (state = fromJS({
     case userActions.FETCH_USERS_ERROR:
       return relationsDataFetchError(state, 'queryHasUsers', hashQuery(action.query), action.error);
 
+    case bikeActions.PERSIST_BIKE_SUCCESS:
+      return fetchEntitySuccess(state, 'bikes', action.data);
+
     case bikeActions.FETCH_BIKES_START:
       return relationsDataFetchStart(state, 'queryHasBikes', hashQuery(action.query));
     case bikeActions.FETCH_BIKES_SUCCESS:

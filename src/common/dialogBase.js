@@ -38,7 +38,7 @@ export default class DialogBase extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={onCancel || onClose} color='primary'>{cancelText}</Button>
-            <LoadingButton isLoading={loading} onClick={onSubmit} color='primary'>{submitText}</LoadingButton>
+            <LoadingButton loading={loading} onClick={onSubmit} color='primary'>{submitText}</LoadingButton>
           </DialogActions>
         </form>
       </Dialog>

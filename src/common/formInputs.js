@@ -17,7 +17,7 @@ export const CheckboxField = ({ input, label, meta: { touched, error }, ...custo
   <FormControlLabel
     control={
       <Checkbox
-        error={Boolean(touched && error)}
+        error={Boolean(touched && error).toString()}
         checked={input.value}
         {...input}
         {...custom}

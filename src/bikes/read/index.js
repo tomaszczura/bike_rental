@@ -13,20 +13,30 @@ import { ApiErrors } from '../../api/apiErrors';
 import { CustomGoogleMap } from '../../common/map';
 import { UserRoles } from '../../constants/userRoles';
 import BikeBookingsList from './bookings';
+import Button from '@material-ui/core/Button';
+import { push } from 'react-router-redux';
+import EditBikeDialog from '../manage/create';
+import RentBikeDialog from '../list/bikeCard/rentDialog';
 
 @connect(selector, dispatch => ({
-  fetchBike: bindActionCreators(actions.fetchBike, dispatch)
+  fetchBike: bindActionCreators(actions.fetchBike, dispatch),
+  deleteBike: bindActionCreators(actions.deleteBike, dispatch),
+  routerPush: bindActionCreators(push, dispatch)
 }))
 export default class BikeDetails extends Component {
   static propTypes = {
     bike: ImmutablePropTypes.map,
+    deleteBike: PropTypes.func,
     fetchBike: PropTypes.func,
     location: PropTypes.object,
     params: PropTypes.shape({
       bikeId: PropTypes.string
     }),
+    routerPush: PropTypes.func,
     userProfile: ImmutablePropTypes.map
   };
+
+  state = {};
 
   componentDidMount() {
     const { bike, params } = this.props;
@@ -56,8 +66,25 @@ export default class BikeDetails extends Component {
     return errorMessage;
   };
 
+  handleRentClick = () => this.setState({ showRentDialog: true });
+
+  hideBikeRentDialog = () => this.setState({ showRentDialog: false });
+
+  handleEditClick = () => this.setState({ showEditDialog: true });
+
+  handleEditClose = () => this.setState({ showEditDialog: false });
+
+  handleDeleteClick = async () => {
+    const del = await window.confirm('Are you sure you want to delete this?');
+    if (del) {
+      await this.props.deleteBike({ bikeId: this.props.bike.get('id') });
+      this.props.routerPush('/bikes');
+    }
+  };
+
   render() {
     const { bike, userProfile, location } = this.props;
+    const { showEditDialog, showRentDialog } = this.state;
     const isManager = userProfile.get('role') === UserRoles.MANAGER;
 
     return (
@@ -93,9 +120,24 @@ export default class BikeDetails extends Component {
                   marker={bike.get('location')}/>
               </div>
             </div>
+            <div className='bike-actions'>
+              <Button size='medium' color='primary' onClick={this.handleRentClick}>Rent</Button>
+              {isManager && <Button size='medium' color='primary' onClick={this.handleEditClick}>Edit</Button>}
+              {isManager && <Button size='medium' color='primary' onClick={this.handleDeleteClick}>Delete</Button>}
+            </div>
             {isManager && <BikeBookingsList location={location} bikeId={bike.get('id')}/>}
           </div>
         }
+        {showEditDialog &&
+          <EditBikeDialog
+            initialValues={{
+              ...bike.toJS(),
+              image: bike.get('imageUrl')
+            }}
+            onBikeSaved={this.handleBikeSaved}
+            onClose={this.handleEditClose}/>
+        }
+        {showRentDialog && <RentBikeDialog bike={bike} location={location} onClose={this.hideBikeRentDialog}/>}
       </div>
     );
   }

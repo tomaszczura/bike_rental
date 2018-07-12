@@ -74,13 +74,18 @@ export default class BikeBookingsList extends Component {
     this.props.fetchBikeBookings(bikeId, location.query);
   };
 
+  handleBookingClick = (user) => () => {
+    this.props.routerPush(`/users/${user.get('id')}/bookings`);
+  };
+
   renderBookingRows = () => {
     const { bookings } = this.props;
     return bookings.get('data', List()).map((booking) => (
       <TableRow
         hover
         tabIndex={-1}
-        key={`bookings${booking.get('id')}`}>
+        key={`bookings${booking.get('id')}`}
+        onClick={this.handleBookingClick(booking.get('user'))}>
         <TableCell>{booking.getIn(['user', 'email'])}</TableCell>
         <TableCell>{booking.get('startDate')}</TableCell>
         <TableCell>{booking.get('endDate')}</TableCell>

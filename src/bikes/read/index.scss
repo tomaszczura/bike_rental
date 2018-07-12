@@ -1,6 +1,12 @@
 @import "../../styles/utils";
 
 .bike-details-container {
+  .bike-actions {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .progress {
     text-align: center;
   }

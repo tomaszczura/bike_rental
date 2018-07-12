@@ -1,1 +1,1 @@
-export { fetchBike } from '../../actions/bike';
+export { fetchBike, deleteBike, fetchBikes } from '../../actions/bike';

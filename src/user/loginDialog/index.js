@@ -90,7 +90,7 @@ export default class LoginDialog extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.onSignUpClick} color='primary'>Sign up</Button>
-            <LoadingButton isLoading={loading} onClick={handleSubmit(this.submit)} color='primary'>Login</LoadingButton>
+            <LoadingButton loading={loading} onClick={handleSubmit(this.submit)} color='primary'>Login</LoadingButton>
           </DialogActions>
         </form>
       </Dialog>

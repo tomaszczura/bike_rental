@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 export default class LoadingButton extends Component {
   static propTypes = {
     children: PropTypes.node,
-    isLoading: PropTypes.bool,
+    loading: PropTypes.bool,
     pSize: PropTypes.number
   };
 
@@ -15,11 +15,11 @@ export default class LoadingButton extends Component {
   };
 
   render() {
-    const { isLoading, children, pSize } = this.props;
+    const { loading, children, pSize } = this.props;
 
     return (
       <Button {...this.props}>
-        {isLoading && <CircularProgress size={pSize} style={{ marginRight: 10 }}/>}
+        {loading && <CircularProgress size={pSize} style={{ marginRight: 10 }}/>}
         {children}
       </Button>
     );

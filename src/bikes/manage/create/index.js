@@ -8,7 +8,6 @@ import './index.scss';
 import ImageInput from '../../../common/imageInput';
 import MapField from '../../../common/mapField';
 import * as actions from './actions';
-import * as listActions from '../list/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ColorSelect from '../../../common/colorSelect';
@@ -32,15 +31,13 @@ const validate = (values) => {
 })
 @connect(null, dispatch => ({
   persistBike: bindActionCreators(actions.persistBike, dispatch),
-  fetchBikes: bindActionCreators(listActions.fetchBikes, dispatch)
 }))
 export default class EditBikeDialog extends Component {
   static propTypes = {
     edit: PropTypes.bool,
-    fetchBikes: PropTypes.func,
     handleSubmit: PropTypes.func,
-    location: PropTypes.object,
     persistBike: PropTypes.func,
+    onBikeSaved: PropTypes.func,
     onClose: PropTypes.func
   };
 
@@ -51,7 +48,7 @@ export default class EditBikeDialog extends Component {
       this.setState({ loading: true });
       const values = form.toJS();
       await this.props.persistBike(values);
-      await this.props.fetchBikes(this.props.location.query);
+      this.props.onBikeSaved && this.props.onBikeSaved();
       this.setState({ loading: false });
       this.props.onClose();
     } catch (error) {

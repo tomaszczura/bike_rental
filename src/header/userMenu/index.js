@@ -41,7 +41,7 @@ export default class UserMenu extends Component {
 
   handleBookingsClick = () => {
     this.handleClose();
-    this.props.routerPush(`/${this.props.userProfile.get('id')}/bookings`);
+    this.props.routerPush(`/users/${this.props.userProfile.get('id')}/bookings`);
   };
 
   render() {

@@ -77,6 +77,8 @@ export default class BikesManageList extends Component {
 
   closeEditBikeDialog = () => this.setState({ showEditDialog: false });
 
+  handleBikeSaved = () => this.props.fetchBikes(this.props.location.query);
+
   renderBikeRows = () => {
     const { bikes } = this.props;
     return bikes.get('data', List()).map((bike) => (
@@ -118,14 +120,14 @@ export default class BikesManageList extends Component {
             rows={this.renderBikeRows()}
             totalCount={bikes.get('totalCount')}/>
         </div>
-        {showCreateDialog && <EditBikeDialog location={location} onClose={this.closeCreateBikeDialog}/>}
+        {showCreateDialog && <EditBikeDialog onBikeSaved={this.handleBikeSaved} onClose={this.closeCreateBikeDialog}/>}
         {showEditDialog &&
           <EditBikeDialog
-            location={location}
             initialValues={{
               ...bikeToEdit.toJS(),
               image: bikeToEdit.get('imageUrl')
             }}
+            onBikeSaved={this.handleBikeSaved}
             onClose={this.closeEditBikeDialog}/>
         }
       </div>

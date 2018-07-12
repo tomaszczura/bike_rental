@@ -96,7 +96,7 @@ export default class RegisterDialog extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.onSignUpClick} color='primary'>Sign in</Button>
-            <LoadingButton isLoading={loading} onClick={handleSubmit(this.submit)} color='primary'>Sign up</LoadingButton>
+            <LoadingButton loading={loading} onClick={handleSubmit(this.submit)} color='primary'>Sign up</LoadingButton>
           </DialogActions>
         </form>
       </Dialog>
