@@ -10,7 +10,7 @@ import './index.scss';
 import FormHelperText from '@material-ui/core/es/FormHelperText/FormHelperText';
 import ColorSelect from '../../../common/colorSelect';
 import Button from '@material-ui/core/Button';
-import DateRangeInput, { dateFormat } from '../../../common/dateRangeInput';
+import DateRangeInput, { dateInputFormat } from '../../../common/dateRangeInput';
 import moment from 'moment';
 
 @connect(null, dispatch => ({
@@ -31,8 +31,8 @@ export default class BikesFilters extends Component {
       minWeight,
       maxWeight,
       color,
-      startDate: startDate ? moment(startDate, dateFormat) : moment(),
-      endDate: endDate ? moment(endDate, dateFormat) : moment().add(1, 'months')
+      startDate: startDate ? moment(startDate, dateInputFormat) : moment(),
+      endDate: endDate ? moment(endDate, dateInputFormat) : moment().add(1, 'weeks')
     };
   }
 
@@ -43,8 +43,8 @@ export default class BikesFilters extends Component {
     newQuery.minWeight = this.state.minWeight;
     newQuery.maxWeight = this.state.maxWeight;
     newQuery.color = this.state.color;
-    newQuery.startDate = moment(this.state.startDate).format(dateFormat);
-    newQuery.endDate = moment(this.state.endDate).format(dateFormat);
+    newQuery.startDate = this.state.startDate ? moment(this.state.startDate).format(dateInputFormat) : '';
+    newQuery.endDate = this.state.endDate ? moment(this.state.endDate).format(dateInputFormat) : '';
 
     this.props.routerPush({
       ...location,
@@ -59,7 +59,7 @@ export default class BikesFilters extends Component {
       maxWeight: '',
       color: '',
       startDate: moment(),
-      endDate: moment().add(1, 'months'),
+      endDate: moment().add(1, 'weeks')
     }, () => this.onSearchClick());
   };
 
@@ -69,9 +69,13 @@ export default class BikesFilters extends Component {
     });
   };
 
-  handleStartDateChange = (value) => this.setState({ startDate: value });
+  handleStartDateChange = (value) => {
+    value && this.setState({ startDate: value });
+  };
 
-  handleEndDateChange = (value) => this.setState({ endDate: value });
+  handleEndDateChange = (value) => {
+    value && this.setState({ endDate: value });
+  };
 
   render() {
     return (

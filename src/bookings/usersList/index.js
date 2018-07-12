@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import DeleteImageButton from '../../common/deleteImgBtn';
 
-export default class UserBookingsList extends Component {
+export default class BookingsListForUser extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     bookings: ImmutablePropTypes.map.isRequired

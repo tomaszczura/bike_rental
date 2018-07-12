@@ -1,19 +1,29 @@
-import { authHeaders, http, prepareSearchPageParams } from './utils';
+import { authHeaders, http, prepareSearchPageParams, serverDateFormat } from './utils';
 import { transformBike } from '../transformers/bike';
+import { dateInputFormat } from '../common/dateRangeInput';
+import moment from 'moment';
 
-export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, search, onlyAvailable, minWeight, maxWeight, color }) {
+export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, search, onlyAvailable, minWeight, maxWeight, color, startDate, endDate }) {
   let url = `/bikes?${prepareSearchPageParams({ page, pageSize, order, orderBy, search })}`;
 
+  if (startDate) {
+    url = `${url}&startDate=${moment(startDate, dateInputFormat).format(serverDateFormat)}`;
+  }
+
+  if (endDate) {
+    url = `${url}&endDate=${moment(endDate, dateInputFormat).format(serverDateFormat)}`;
+  }
+
   if (onlyAvailable) {
-    url = `${url}&only_available=${onlyAvailable}`;
+    url = `${url}&onlyAvailable=${onlyAvailable}`;
   }
 
   if (minWeight) {
-    url = `${url}&min_weight=${minWeight}`;
+    url = `${url}&minWeight=${minWeight}`;
   }
 
   if (maxWeight) {
-    url = `${url}&max_weight=${maxWeight}`;
+    url = `${url}&maxWeight=${maxWeight}`;
   }
 
   if (color) {

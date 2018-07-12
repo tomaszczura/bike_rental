@@ -1,6 +1,8 @@
 import axios from 'axios';
 import * as session from '../utils/session';
 
+export const serverDateFormat = 'YYYY-MM-DD';
+
 export const http = axios.create({
   baseURL: 'http://localhost:3000/api',
   timeout: 1000

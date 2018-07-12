@@ -9,7 +9,7 @@ import { hashQuery } from '../../reducers/utils';
 import { push } from 'react-router-redux';
 import { BookingType } from '../../constants/bookingsType';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import UserBookingsList from '../../bookings/usersList/index';
+import BookingsListForUser from '../../bookings/usersList/index';
 import selector from './selector';
 
 @connect(selector, dispatch => ({
@@ -63,7 +63,7 @@ export default class UsersBookingList extends Component {
           <Tab label='Past' value={BookingType.PAST}/>
         </Tabs>
         <div>
-          <UserBookingsList bookings={bookings} location={location}/>
+          <BookingsListForUser bookings={bookings} location={location}/>
         </div>
       </div>
     );

@@ -14,6 +14,9 @@ import { push } from 'react-router-redux';
 import TablePagination from '@material-ui/core/TablePagination';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
+import TableFooter from '@material-ui/core/TableFooter';
+import { dateInputFormat } from '../../common/dateRangeInput';
+import moment from 'moment';
 
 @connect(selector, dispatch => ({
   fetchBikes: bindActionCreators(actions.fetchBikes, dispatch),
@@ -28,8 +31,19 @@ export default class BikesList extends Component {
   };
 
   componentDidMount() {
-    const { location } = this.props;
-    this.props.fetchBikes(location.query);
+    const { location, location: { query, query: { startDate, endDate } } } = this.props;
+    if (!startDate || !endDate) {
+      const newQuery = { ...query };
+      if (!startDate) {
+        newQuery.startDate = moment().format(dateInputFormat);
+      }
+      if (!endDate) {
+        newQuery.endDate = moment().add(1, 'weeks').format(dateInputFormat);
+      }
+      this.props.routerPush({ ...location, query: newQuery });
+    } else {
+      this.props.fetchBikes(query);
+    }
   }
 
   componentDidUpdate(prevProps, prevState, prevContext) { // eslint-disable-line no-unused-vars
@@ -78,15 +92,17 @@ export default class BikesList extends Component {
         </div>
         <div>
           <Table>
-            <TableRow>
-              <TablePagination
-                count={totalCount || 0}
-                rowsPerPage={parseInt(query.pageSize, 10) || 27}
-                rowsPerPageOptions={[9, 27, 45]}
-                page={parseInt(query.page, 10) || 0}
-                onChangePage={this.onPageChange}
-                onChangeRowsPerPage={this.onRowsPerPageChange}/>
-            </TableRow>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  count={totalCount || 0}
+                  rowsPerPage={parseInt(query.pageSize, 10) || 27}
+                  rowsPerPageOptions={[9, 27, 45]}
+                  page={parseInt(query.page, 10) || 0}
+                  onChangePage={this.onPageChange}
+                  onChangeRowsPerPage={this.onRowsPerPageChange}/>
+              </TableRow>
+            </TableFooter>
           </Table>
         </div>
       </div>

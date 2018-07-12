@@ -7,7 +7,7 @@ import Input from '@material-ui/core/Input';
 import './index.scss';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
-export const dateFormat = 'DD-MM-YYYY';
+export const dateInputFormat = 'DD-MM-YYYY';
 
 export default class DateRangeInput extends Component {
   static propTypes = {
@@ -19,8 +19,9 @@ export default class DateRangeInput extends Component {
 
   render() {
     const { startDate, endDate, onStartDateChange, onEndDateChange } = this.props;
-    const startDateValue = startDate ? moment(startDate, dateFormat).format(dateFormat) : '';
-    const endDateValue = endDate ? moment(endDate, dateFormat).format(dateFormat) : '';
+    const startDateValue = startDate ? moment(startDate, dateInputFormat).format(dateInputFormat) : '';
+    const endDateValue = endDate ? moment(endDate, dateInputFormat).format(dateInputFormat) : '';
+    const yesterday = moment().subtract(1, 'days');
 
     return (
       <div className='datepicker-range-container'>
@@ -29,8 +30,9 @@ export default class DateRangeInput extends Component {
             {...this.props}
             customInput={<Input value={startDateValue}/>}
             endDate={endDate}
-            filterDate={(date) => date.diff(endDate) <= 0}
-            dateFormat={dateFormat}
+            filterDate={(date) => (endDate ? date.diff(endDate) <= 0 && date > yesterday : date > yesterday)}
+            dateFormat={dateInputFormat}
+            readOnly
             selected={startDate}
             selectsStart
             startDate={startDate}
@@ -42,8 +44,10 @@ export default class DateRangeInput extends Component {
           <DatePicker
             {...this.props}
             customInput={<Input value={endDateValue}/>}
-            filterDate={(date) => date.diff(startDate) >= 0}
-            dateFormat={dateFormat}
+            endDate={endDate}
+            filterDate={(date) => (startDate ? date.diff(startDate) >= 0 && date > yesterday : date > yesterday)}
+            dateFormat={dateInputFormat}
+            readOnly
             selected={endDate}
             selectsEnd
             startDate={startDate}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import DateRangeInput, { dateFormat } from '../../../../common/dateRangeInput';
+import DateRangeInput, { dateInputFormat } from '../../../../common/dateRangeInput';
 import moment from 'moment';
 import DialogBase from '../../../../common/dialogBase';
 import * as actions from './actions';
@@ -11,14 +11,18 @@ import { connect } from 'react-redux';
 import { getErrorCode } from '../../../../utils/error';
 import { Errors } from './errors';
 import './_datepicker.scss';
+import { serverDateFormat } from '../../../../api/utils';
+import * as listActions from '../../actions';
 
 @connect(null, dispatch => ({
-  bookBike: bindActionCreators(actions.bookBike, dispatch)
+  bookBike: bindActionCreators(actions.bookBike, dispatch),
+  fetchBikes: bindActionCreators(listActions.fetchBikes, dispatch)
 }))
 export default class RentBikeDialog extends Component {
   static propTypes = {
     bookBike: PropTypes.func,
     bike: ImmutablePropTypes.map.isRequired,
+    fetchBikes: PropTypes.func,
     location: PropTypes.object.isRequired,
     onClose: PropTypes.func.isRequired
   };
@@ -28,8 +32,8 @@ export default class RentBikeDialog extends Component {
 
     const { location: { query: { startDate, endDate } } } = this.props;
     this.state = {
-      startDate: startDate ? moment(startDate, dateFormat) : moment(),
-      endDate: endDate ? moment(endDate, dateFormat) : moment().add(1, 'months')
+      startDate: startDate ? moment(startDate, dateInputFormat) : moment(),
+      endDate: endDate ? moment(endDate, dateInputFormat) : moment().add(1, 'months')
     };
   }
 
@@ -49,9 +53,10 @@ export default class RentBikeDialog extends Component {
   handleSubmit = async () => {
     try {
       this.setState({ error: '', loading: true });
-      const startDate = moment(this.state.startDate).format('YYYY-MM-DD');
-      const endDate = moment(this.state.endDate).format('YYYY-MM-DD');
+      const startDate = moment(this.state.startDate).format(serverDateFormat);
+      const endDate = moment(this.state.endDate).format(serverDateFormat);
       await this.props.bookBike({ bikeId: this.props.bike.get('id'), startDate, endDate });
+      this.props.fetchBikes(this.props.location.query);
       this.setState({ loading: false });
       this.props.onClose();
     } catch (error) {
