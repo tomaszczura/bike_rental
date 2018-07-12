@@ -6,7 +6,7 @@ export function relatedEntitiesSelector(entitiesSelector, relationsSelector, key
     const relData = relations.get(key) || Map();
     const entityIds = relData.get('data') || List();
     const dataArray = entityIds.reduce((array, entityId) => {
-      const entity = entities.get(entityId);
+      const entity = entities.get(entityId.toString());
       if (entity) {
         array.push(entity);
       }

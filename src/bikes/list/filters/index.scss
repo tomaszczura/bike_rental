@@ -5,6 +5,7 @@
 
   .filters {
     display: flex;
+    flex-wrap: wrap;
   }
 
   padding-left: 10px;
@@ -16,6 +17,7 @@
 
   .filter-fields {
     display: flex;
+    flex-wrap: wrap;
 
     .filter-input {
 

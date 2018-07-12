@@ -1,0 +1,50 @@
+@import "../../styles/utils";
+
+.bike-details-container {
+  .progress {
+    text-align: center;
+  }
+
+  .bike-data {
+    display: flex;
+
+    .bike-map {
+      margin-left: auto;
+    }
+
+    .model {
+      font-size: 44px;
+      margin-bottom: 20px;
+    }
+
+    .property {
+      margin-bottom: 10px;
+      display: flex;
+
+      span {
+        font-size: 20px;
+      }
+
+      .color {
+        width: 100px;
+        height: 25px;
+      }
+    }
+
+    .property-name {
+      margin-right: 20px;
+      font-weight: 600;
+      width: 100px;
+    }
+  }
+
+  .bike-image {
+    width: 300px;
+    height: 300px;
+    margin-right: 20px;
+
+    img {
+      @include image(300px, 300px);
+    }
+  }
+}

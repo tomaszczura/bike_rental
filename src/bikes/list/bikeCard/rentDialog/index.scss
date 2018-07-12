@@ -1,12 +1,11 @@
+@import "../../../../styles/utils";
+
 .rent-bike-info {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 
   img {
-    max-width: 100px;
-    max-height: 100px;
-    object-fit: contain;
-    margin-right: 10px;
+    @include image(100px, 100px, 10px);
   }
 }

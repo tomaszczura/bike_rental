@@ -73,10 +73,16 @@ export async function bookBike({ bikeId, startDate, endDate }) {
     to: endDate
   };
 
-  const body = await http.post(url, params, authHeaders());
+  await http.post(url, params, authHeaders());
 }
 
 export async function deleteBikeBooking({ bookingId }) {
   const url = `/bookings/${bookingId}`;
-  const body = await http.delete(url, authHeaders());
+  await http.delete(url, authHeaders());
+}
+
+export async function fetchBike({ bikeId }) {
+  const url = `/bikes/${bikeId}`;
+  const { data } = await http.get(url, authHeaders());
+  return transformBike(data);
 }

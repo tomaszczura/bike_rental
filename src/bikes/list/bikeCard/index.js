@@ -9,6 +9,7 @@ import './index.scss';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import RentBikeDialog from './rentDialog';
+import { Link } from 'react-router';
 
 export default class BikeCard extends Component {
   static propTypes = {
@@ -50,9 +51,8 @@ export default class BikeCard extends Component {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size='small' color='primary' onClick={this.showBikeRentDialog}>
-              Rent this bike
-            </Button>
+            <Button size='small' color='primary' onClick={this.showBikeRentDialog}>Rent this bike</Button>
+            <Button size='small' color='primary' component={Link} to={`/bikes/${bike.get('id')}`}>Show details</Button>
           </CardActions>
         </Card>
         {this.state.showRentDialog && <RentBikeDialog bike={bike} location={location} onClose={this.hideBikeRentDialog}/>}

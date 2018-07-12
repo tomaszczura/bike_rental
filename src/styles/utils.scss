@@ -1,0 +1,6 @@
+@mixin image($width, $height, $marginRight: 0) {
+  max-width: $width;
+  max-height: $height;
+  object-fit: contain;
+  margin-right: $marginRight;
+}

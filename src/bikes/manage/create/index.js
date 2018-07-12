@@ -4,7 +4,6 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import DialogBase from '../../../common/dialogBase';
 import { CheckboxField, TextField } from '../../../common/formInputs';
-import { Colors } from '../../../constants/colors';
 import './index.scss';
 import ImageInput from '../../../common/imageInput';
 import MapField from '../../../common/mapField';

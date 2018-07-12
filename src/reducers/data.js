@@ -1,7 +1,14 @@
 import { fromJS } from 'immutable';
 import * as userActions from '../actions/user';
 import * as bikeActions from '../actions/bike';
-import { hashQuery, relationsDataFetchError, relationsDataFetchStart, relationsDataFetchSuccess } from './utils';
+import {
+  fetchEntityError,
+  fetchEntityStart, fetchEntitySuccess,
+  hashQuery,
+  relationsDataFetchError,
+  relationsDataFetchStart,
+  relationsDataFetchSuccess
+} from './utils';
 
 export default (state = fromJS({
   profile: {},
@@ -38,6 +45,13 @@ export default (state = fromJS({
       return relationsDataFetchSuccess(state, 'queryHasBikes', 'bikes', hashQuery(action.query), action.data);
     case bikeActions.FETCH_BIKES_ERROR:
       return relationsDataFetchError(state, 'queryHasBikes', hashQuery(action.query), action.error);
+
+    case bikeActions.FETCH_BIKE_START:
+      return fetchEntityStart(state, 'bikes', action.bikeId);
+    case bikeActions.FETCH_BIKE_SUCCESS:
+      return fetchEntitySuccess(state, 'bikes', action.data);
+    case bikeActions.FETCH_BIKE_ERROR:
+      return fetchEntityError(state, 'bikes', action.bikeId, action.error);
 
     case userActions.FETCH_USER_BOOKINGS_START:
       return relationsDataFetchStart(state, 'userHasBookings', hashQuery(action.query));

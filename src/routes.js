@@ -11,6 +11,7 @@ import BikesManageList from './bikes/manage/list';
 import UsersManageList from './users/list';
 import { UserRoles } from './constants/userRoles';
 import UsersBookingList from './users/bookings';
+import BikeDetails from './bikes/read';
 
 // eslint-disable-next-line no-unused-vars
 export const getRoutes = ({ dispatch, getState }) => {
@@ -62,6 +63,7 @@ export const getRoutes = ({ dispatch, getState }) => {
       <Route path='/login' component={LoginDialog} onEnter={requireNotAuthenticated()}/>
       <Route path='/register' component={RegisterDialog} onEnter={requireNotAuthenticated()}/>
       <Route path='/bikes' component={BikesList} onEnter={requireAuthenticated()}/>
+      <Route path='/bikes/:bikeId' component={BikeDetails} onEnter={requireAuthenticated()}/>
       <Route path='/:userId/bookings' component={UsersBookingList} onEnter={requireCurrentUserOrManager()}/>
       <Route path='/manage-bikes' component={BikesManageList} onEnter={requireAuthenticatedManager()}/>
       <Route path='/manage-users' component={UsersManageList} onEnter={requireAuthenticatedManager()}/>

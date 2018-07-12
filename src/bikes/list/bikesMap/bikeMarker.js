@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import './index.scss';
 import Button from '@material-ui/core/Button';
 import RentBikeDialog from '../bikeCard/rentDialog';
+import { Link } from 'react-router';
 
 export default class BikeMarker extends Component {
   static propTypes = {
@@ -49,7 +50,7 @@ export default class BikeMarker extends Component {
               </div>
               <div className='bike-marker-buttons'>
                 <Button size='small' color='primary' onClick={this.showBikeRentDialog}>Rent</Button>
-                <Button size='small' color='primary'>Details</Button>
+                <Button size='small' color='primary' component={Link} to={`/bikes/${bike.get('id')}`}>Details</Button>
               </div>
             </div>
           </InfoWindow>

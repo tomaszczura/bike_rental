@@ -16,16 +16,19 @@ import { isLoading } from '../../../utils/data';
 import SearchBar from '../../../common/searchBar';
 import DeleteImageButton from '../../../common/deleteImgBtn';
 import EditImageButton from '../../../common/editImgBtn';
+import { push } from 'react-router-redux';
 
 @connect(selector, dispatch => ({
   fetchBikes: bindActionCreators(actions.fetchBikes, dispatch),
-  deleteBike: bindActionCreators(actions.deleteBike, dispatch)
+  deleteBike: bindActionCreators(actions.deleteBike, dispatch),
+  routerPush: bindActionCreators(push, dispatch)
 }))
 export default class BikesManageList extends Component {
   static propTypes = {
     bikes: ImmutablePropTypes.map,
     deleteBike: PropTypes.func,
     fetchBikes: PropTypes.func,
+    routerPush: PropTypes.func,
     location: PropTypes.object
   };
 
@@ -62,7 +65,7 @@ export default class BikesManageList extends Component {
   closeCreateBikeDialog = () => this.setState({ showCreateDialog: false });
 
   handleBikeClick = (bike) => {
-    console.log(`Click bike: ${bike.get('id')}`);
+    this.props.routerPush(`/bikes/${bike.get('id')}`);
   };
 
   handleBikeDeleteClick = (id) => async () => {
