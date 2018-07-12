@@ -53,6 +53,7 @@ export default (state = fromJS({
     case bikeActions.FETCH_BIKE_START:
       return fetchEntityStart(state, 'bikes', action.bikeId);
     case bikeActions.FETCH_BIKE_SUCCESS:
+    case bikeActions.RATE_BIKE_SUCCESS:
       return fetchEntitySuccess(state, 'bikes', action.data);
     case bikeActions.FETCH_BIKE_ERROR:
       return fetchEntityError(state, 'bikes', action.bikeId, action.error);

@@ -10,6 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import RentBikeDialog from './rentDialog';
 import { Link } from 'react-router';
+import { RateStars } from '../../../common/rateStars';
 
 export default class BikeCard extends Component {
   static propTypes = {
@@ -39,7 +40,10 @@ export default class BikeCard extends Component {
         <Card className='bike-card'>
           <CardMedia className='card-image' image={bike.get('imageUrl')}/>
           <CardContent>
-            <Typography gutterBottom variant='headline' component='h2'>{bike.get('model')}</Typography>
+            <div className='bike-model'>
+              <Typography gutterBottom variant='headline' component='h2'>{bike.get('model')}&nbsp;</Typography>
+              <RateStars count={bike.get('ratesCount')} rating={bike.get('rate')} starDimension='15px' starSpacing='0px'/>
+            </div>
             <Typography component='div'>
               <div className='bike-props'>
                 <span className='prop-name'>Color:</span>

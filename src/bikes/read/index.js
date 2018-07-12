@@ -18,6 +18,7 @@ import { push } from 'react-router-redux';
 import EditBikeDialog from '../manage/create';
 import RentBikeDialog from '../list/bikeCard/rentDialog';
 import RateBikeDialog from './rateDialog';
+import { RateStars } from '../../common/rateStars';
 
 @connect(selector, dispatch => ({
   fetchBike: bindActionCreators(actions.fetchBike, dispatch),
@@ -108,6 +109,9 @@ export default class BikeDetails extends Component {
               </div>
               <div>
                 <div className='model'>{bike.get('model')}</div>
+                <div className='rating'>
+                  <RateStars count={bike.get('ratesCount')} rating={bike.get('rate')} starDimension='35px' starSpacing='0px'/>
+                </div>
                 <div className='property'>
                   <span className='property-name'>Color:</span>
                   <div className='color' style={{ background: bike.get('color') }}/>

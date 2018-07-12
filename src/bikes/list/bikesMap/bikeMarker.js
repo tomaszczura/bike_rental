@@ -6,6 +6,7 @@ import './index.scss';
 import Button from '@material-ui/core/Button';
 import RentBikeDialog from '../bikeCard/rentDialog';
 import { Link } from 'react-router';
+import { RateStars } from '../../../common/rateStars';
 
 export default class BikeMarker extends Component {
   static propTypes = {
@@ -45,7 +46,8 @@ export default class BikeMarker extends Component {
                 <img src={bike.get('imageUrl')}/>
                 <div>
                   <div className='bike-name'>{bike.get('model')}</div>
-                  <div>{bike.get('weight')}kg</div>
+                  <div className='bike-weight'>{bike.get('weight')}kg</div>
+                  <RateStars count={bike.get('ratesCount')} rating={bike.get('rate')} starDimension='10px' starSpacing='0px'/>
                 </div>
               </div>
               <div className='bike-marker-buttons'>
