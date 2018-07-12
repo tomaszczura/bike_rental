@@ -38,6 +38,8 @@ export default class BikesManageList extends Component {
     this.tableHeaders = [
       { label: 'ID' },
       { label: 'MODEL', id: 'model' },
+      { label: 'RATE' },
+      { label: 'RATE COUNT' },
       { label: 'COLOR' },
       { label: 'WEIGHT', id: 'weight' },
       { label: 'AVAILABLE' },
@@ -94,6 +96,8 @@ export default class BikesManageList extends Component {
             {bike.get('model')}
           </div>
         </TableCell>
+        <TableCell>{bike.get('rate')}</TableCell>
+        <TableCell>{bike.get('ratesCount')}</TableCell>
         <TableCell><div style={{ width: 20, height: 20, backgroundColor: bike.get('color') }}/></TableCell>
         <TableCell>{bike.get('weight')}</TableCell>
         <TableCell><Checkbox checked={bike.get('isAvailable')}/></TableCell>

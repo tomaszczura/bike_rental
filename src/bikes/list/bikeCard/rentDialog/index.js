@@ -73,7 +73,7 @@ export default class RentBikeDialog extends Component {
     const { error, loading, dateRange } = this.state;
 
     return (
-      <DialogBase error={error} loading={loading} title='Rent a bike' submitText='Save' onClose={onClose} onSubmit={this.handleSubmit}>
+      <DialogBase error={error} loading={loading} title='Rent this bike' submitText='Save' onClose={onClose} onSubmit={this.handleSubmit}>
         <div className='rent-bike-info'>
           <img src={bike.get('imageUrl')}/>
           <div>{bike.get('model')}</div>

@@ -17,6 +17,7 @@ import Button from '@material-ui/core/Button';
 import { push } from 'react-router-redux';
 import EditBikeDialog from '../manage/create';
 import RentBikeDialog from '../list/bikeCard/rentDialog';
+import RateBikeDialog from './rateDialog';
 
 @connect(selector, dispatch => ({
   fetchBike: bindActionCreators(actions.fetchBike, dispatch),
@@ -70,6 +71,10 @@ export default class BikeDetails extends Component {
 
   hideBikeRentDialog = () => this.setState({ showRentDialog: false });
 
+  handleRateClick = () => this.setState({ showRateDialog: true });
+
+  hideRateBikeDialog = () => this.setState({ showRateDialog: false });
+
   handleEditClick = () => this.setState({ showEditDialog: true });
 
   handleEditClose = () => this.setState({ showEditDialog: false });
@@ -84,7 +89,7 @@ export default class BikeDetails extends Component {
 
   render() {
     const { bike, userProfile, location } = this.props;
-    const { showEditDialog, showRentDialog } = this.state;
+    const { showEditDialog, showRentDialog, showRateDialog } = this.state;
     const isManager = userProfile.get('role') === UserRoles.MANAGER;
 
     return (
@@ -122,6 +127,7 @@ export default class BikeDetails extends Component {
             </div>
             <div className='bike-actions'>
               <Button size='medium' color='primary' onClick={this.handleRentClick}>Rent</Button>
+              <Button size='medium' color='primary' onClick={this.handleRateClick}>Rate</Button>
               {isManager && <Button size='medium' color='primary' onClick={this.handleEditClick}>Edit</Button>}
               {isManager && <Button size='medium' color='primary' onClick={this.handleDeleteClick}>Delete</Button>}
             </div>
@@ -138,6 +144,7 @@ export default class BikeDetails extends Component {
             onClose={this.handleEditClose}/>
         }
         {showRentDialog && <RentBikeDialog bike={bike} location={location} onClose={this.hideBikeRentDialog}/>}
+        {showRateDialog && <RateBikeDialog bike={bike} onClose={this.hideRateBikeDialog}/>}
       </div>
     );
   }

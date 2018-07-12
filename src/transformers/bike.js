@@ -1,4 +1,4 @@
-export function transformBike({ id, model, weight, location, color, imageUrl, isAvailable }) {
+export function transformBike({ id, model, weight, location, color, imageUrl, isAvailable, rate, ratesCount }) {
   return {
     id,
     model,
@@ -9,6 +9,8 @@ export function transformBike({ id, model, weight, location, color, imageUrl, is
     },
     color,
     imageUrl,
-    isAvailable
+    isAvailable,
+    rate: Math.round(rate * 100) / 100,
+    ratesCount
   };
 }

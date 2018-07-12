@@ -95,3 +95,10 @@ export async function fetchBikeBookings({ bikeId, page = 0, pageSize = 25, order
   data.data = data.data.map(transformBooking);
   return data;
 }
+
+export async function rateBike({ bikeId, rate }) {
+  const url = `/bikes/${bikeId}/rate`;
+  const params = { rate };
+  const { data } = await http.post(url, params, authHeaders());
+  return transformBike(data);
+}

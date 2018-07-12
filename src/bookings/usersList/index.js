@@ -30,6 +30,7 @@ export default class BookingsListForUser extends Component {
 
     this.tableHeaders = [
       { label: 'MODEL' },
+      { label: 'RATE' },
       { label: 'START DATE', id: 'from' },
       { label: 'END DATE', id: 'to' },
       { label: 'ACTIONS' },
@@ -59,6 +60,7 @@ export default class BookingsListForUser extends Component {
             {booking.getIn(['bike', 'model'])}
           </div>
         </TableCell>
+        <TableCell>{booking.getIn(['bike', 'rate'])}</TableCell>
         <TableCell>{booking.get('startDate')}</TableCell>
         <TableCell>{booking.get('endDate')}</TableCell>
         <TableCell>

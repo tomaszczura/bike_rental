@@ -29,6 +29,10 @@ export const DELETE_BIKE_BOOKING_START = 'BIKE/DELETE_BIKE_BOOKING_START';
 export const DELETE_BIKE_BOOKING_SUCCESS = 'BIKE/DELETE_BIKE_BOOKING_SUCCESS';
 export const DELETE_BIKE_BOOKING_ERROR = 'BIKE/DELETE_BIKE_BOOKING_ERROR';
 
+export const RATE_BIKE_START = 'BIKE/RATE_BIKE_START';
+export const RATE_BIKE_SUCCESS = 'BIKE/RATE_BIKE_SUCCESS';
+export const RATE_BIKE_ERROR = 'BIKE/RATE_BIKE_ERROR';
+
 export const persistBike = apiAction(api.persistBike, PERSIST_BIKE_START, PERSIST_BIKE_SUCCESS, PERSIST_BIKE_ERROR);
 export const fetchBikes = apiAction(api.fetchBikes, FETCH_BIKES_START, FETCH_BIKES_SUCCESS, FETCH_BIKES_ERROR);
 export const fetchBike = apiAction(api.fetchBike, FETCH_BIKE_START, FETCH_BIKE_SUCCESS, FETCH_BIKE_ERROR);
@@ -36,3 +40,4 @@ export const deleteBike = apiAction(api.deleteBike, DELETE_BIKE_START, DELETE_BI
 export const bookBike = apiAction(api.bookBike, CREATE_BIKE_BOOKING_START, CREATE_BIKE_BOOKING_SUCCESS, CREATE_BIKE_BOOKING_ERROR);
 export const deleteBikeBooking = apiAction(api.deleteBikeBooking, DELETE_BIKE_BOOKING_START, DELETE_BIKE_BOOKING_SUCCESS, DELETE_BIKE_BOOKING_ERROR);
 export const fetchBikeBookings = apiAction(api.fetchBikeBookings, FETCH_BIKES_BOOKINGS_START, FETCH_BIKES_BOOKINGS_SUCCESS, FETCH_BIKES_BOOKINGS_ERROR);
+export const rateBike = apiAction(api.rateBike, RATE_BIKE_START, RATE_BIKE_SUCCESS, RATE_BIKE_ERROR);

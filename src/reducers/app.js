@@ -13,6 +13,8 @@ export default (state = fromJS({
       return state.set('snackbarOpened', false).set('snackbarMessage', '');
     case bikeActions.CREATE_BIKE_BOOKING_SUCCESS:
       return state.set('snackbarOpened', true).set('snackbarMessage', 'Bike has been booked!');
+    case bikeActions.RATE_BIKE_SUCCESS:
+      return state.set('snackbarOpened', true).set('snackbarMessage', 'Bike has been rated!');
     default:
       return state;
   }
