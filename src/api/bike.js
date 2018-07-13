@@ -5,7 +5,8 @@ import moment from 'moment';
 import { BookingType } from '../constants/bookingsType';
 import { transformBooking } from '../transformers/booking';
 
-export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, search, onlyAvailable, minWeight, maxWeight, color, startDate, endDate }) {
+export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, search, onlyAvailable, minWeight,
+  maxWeight, color, startDate, endDate, minRate }) {
   let url = `/bikes?${prepareSearchPageParams({ page, pageSize, order, orderBy, search })}`;
 
   if (startDate) {
@@ -30,6 +31,10 @@ export async function fetchBikes({ page = 0, pageSize = 25, order, orderBy, sear
 
   if (color) {
     url = `${url}&color=${encodeURIComponent(color)}`;
+  }
+
+  if (minRate) {
+    url = `${url}&minRate=${minRate}`;
   }
 
   const { data } = await http.get(url, authHeaders());

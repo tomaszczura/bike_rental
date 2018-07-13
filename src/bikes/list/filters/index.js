@@ -12,6 +12,16 @@ import ColorSelect from '../../../common/colorSelect';
 import Button from '@material-ui/core/Button';
 import DateRangeInput, { dateInputFormat } from '../../../common/dateRangeInput';
 import moment from 'moment';
+import SelectInput from '../../../common/selectInput';
+
+const rateSelect = [
+  { label: '', value: '' },
+  { label: '1', value: 1 },
+  { label: '2', value: 2 },
+  { label: '3', value: 3 },
+  { label: '4', value: 4 },
+  { label: '5', value: 5 },
+];
 
 @connect(null, dispatch => ({
   routerPush: bindActionCreators(push, dispatch)
@@ -25,12 +35,13 @@ export default class BikesFilters extends Component {
   constructor(props) {
     super(props);
 
-    const { location: { query: { search, minWeight, maxWeight, color, startDate, endDate } } } = this.props;
+    const { location: { query: { search, minWeight, maxWeight, color, startDate, endDate, minRate } } } = this.props;
     this.state = {
       search: search || '',
       minWeight,
       maxWeight,
       color,
+      minRate,
       startDate: startDate ? moment(startDate, dateInputFormat) : moment(),
       endDate: endDate ? moment(endDate, dateInputFormat) : moment().add(1, 'weeks')
     };
@@ -44,6 +55,7 @@ export default class BikesFilters extends Component {
     newQuery.minWeight = this.state.minWeight;
     newQuery.maxWeight = this.state.maxWeight;
     newQuery.color = this.state.color;
+    newQuery.minRate = this.state.minRate;
     newQuery.startDate = this.state.startDate ? moment(this.state.startDate).format(dateInputFormat) : '';
     newQuery.endDate = this.state.endDate ? moment(this.state.endDate).format(dateInputFormat) : '';
 
@@ -59,6 +71,7 @@ export default class BikesFilters extends Component {
       minWeight: '',
       maxWeight: '',
       color: '',
+      minRate: '',
       startDate: moment(),
       endDate: moment().add(1, 'weeks')
     }, () => this.onSearchClick());
@@ -77,6 +90,8 @@ export default class BikesFilters extends Component {
   handleEndDateChange = (value) => {
     value && this.setState({ endDate: value });
   };
+
+  renderRateValue = value => <div>{value}</div>
 
   render() {
     return (
@@ -123,6 +138,16 @@ export default class BikesFilters extends Component {
                 startDate={this.state.startDate}
                 onStartDateChange={this.handleStartDateChange}
                 onEndDateChange={this.handleEndDateChange}/>
+            </div>
+            <div className='filter-input'>
+              <SelectInput
+                clearable
+                input={{ value: this.state.minRate, onChange: this.handleChange, name: 'minRate' }}
+                label='Min rate'
+                labelOnDown
+                renderOption={this.renderRateValue}
+                renderValue={this.renderRateValue}
+                values={rateSelect}/>
             </div>
           </div>
         </div>

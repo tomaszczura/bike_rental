@@ -38,7 +38,7 @@ export default class BikesManageList extends Component {
     this.tableHeaders = [
       { label: 'ID' },
       { label: 'MODEL', id: 'model' },
-      { label: 'RATE' },
+      { label: 'RATE', id: 'rate' },
       { label: 'RATE COUNT' },
       { label: 'COLOR' },
       { label: 'WEIGHT', id: 'weight' },
