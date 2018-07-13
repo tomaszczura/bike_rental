@@ -42,10 +42,10 @@ export default class BikesList extends Component {
     if (!startDate || !endDate) {
       const newQuery = { ...query };
       if (!startDate) {
-        newQuery.startDate = moment().format(dateInputFormat);
+        newQuery.startDate = moment().startOf('day').format(dateInputFormat);
       }
       if (!endDate) {
-        newQuery.endDate = moment().add(1, 'weeks').format(dateInputFormat);
+        newQuery.endDate = moment().endOf('day').add(1, 'weeks').format(dateInputFormat);
       }
       this.props.routerPush({ ...location, query: newQuery });
     } else {

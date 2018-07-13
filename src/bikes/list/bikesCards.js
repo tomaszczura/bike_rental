@@ -11,6 +11,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
+import { isLoaded } from '../../utils/data';
 
 @connect(selector, dispatch => ({
   routerPush: bindActionCreators(push, dispatch)
@@ -54,7 +55,7 @@ export default class BikesCards extends Component {
       <div>
         <div key={shortid.generate()} className='cards-container'>
           {bikes.get('data').map((bike) => <BikeCard key={shortid.generate()} location={location} bike={bike}/>)}
-          {bikes.get('data') && bikes.get('data').size === 0 && <div className='no-data'>No bikes to display</div>}
+          {isLoaded(bikes) && bikes.get('data').size === 0 && <div className='no-data'>No bikes to display</div>}
         </div>
         <div>
           <Table>

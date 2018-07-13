@@ -10,12 +10,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getErrorCode } from '../../../../utils/error';
 import { Errors } from './errors';
-import './_datepicker.scss';
 import { serverDateFormat } from '../../../../api/utils';
 import * as listActions from '../../actions';
 import DateRangePicker from 'react-daterange-picker';
 import { extendMoment } from 'moment-range';
-import './_calendar.scss';
+import '../../../../styles/_calendar.scss';
 
 const moment = extendMoment(Moment);
 

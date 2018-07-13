@@ -10,9 +10,10 @@ import './index.scss';
 import FormHelperText from '@material-ui/core/es/FormHelperText/FormHelperText';
 import ColorSelect from '../../../common/colorSelect';
 import Button from '@material-ui/core/Button';
-import DateRangeInput, { dateInputFormat } from '../../../common/dateRangeInput';
+import { dateInputFormat } from '../../../common/dateRangeInput';
 import moment from 'moment';
 import SelectInput from '../../../common/selectInput';
+import DateRangeDialog from './dateRangeDialog';
 
 const rateSelect = [
   { label: '', value: '' },
@@ -42,8 +43,8 @@ export default class BikesFilters extends Component {
       maxWeight,
       color,
       minRate,
-      startDate: startDate ? moment(startDate, dateInputFormat) : moment(),
-      endDate: endDate ? moment(endDate, dateInputFormat) : moment().add(1, 'weeks')
+      startDate: startDate ? moment(startDate, dateInputFormat) : moment().startOf('day'),
+      endDate: endDate ? moment(endDate, dateInputFormat) : moment().endOf('day').add(1, 'weeks')
     };
   }
 
@@ -72,8 +73,8 @@ export default class BikesFilters extends Component {
       maxWeight: '',
       color: '',
       minRate: '',
-      startDate: moment(),
-      endDate: moment().add(1, 'weeks')
+      startDate: moment().startOf('day'),
+      endDate: moment().endOf('day').add(1, 'weeks')
     }, () => this.onSearchClick());
   };
 
@@ -83,17 +84,24 @@ export default class BikesFilters extends Component {
     });
   };
 
-  handleStartDateChange = (value) => {
-    value && this.setState({ startDate: value });
+  handleDateRangeShow = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState({ showDateRageDialog: true });
   };
 
-  handleEndDateChange = (value) => {
-    value && this.setState({ endDate: value });
-  };
+  handleDateRangeDialogClose = () => this.setState({ showDateRageDialog: false });
 
-  renderRateValue = value => <div>{value}</div>
+  handleDateRangeSelect = (startDate, endDate) => this.setState({
+    startDate,
+    endDate
+  });
+
+  renderRateValue = value => <div>{value}</div>;
 
   render() {
+    const { startDate, endDate, showDateRageDialog } = this.state;
+
     return (
       <div className='bikes-filters-container'>
         <div className='filters'>
@@ -132,12 +140,11 @@ export default class BikesFilters extends Component {
             <div className='filter-color'>
               <ColorSelect allowEmpty labelOnDown input={{ value: this.state.color, onChange: this.handleChange, name: 'color' }}/>
             </div>
-            <div>
-              <DateRangeInput
-                endDate={this.state.endDate}
-                startDate={this.state.startDate}
-                onStartDateChange={this.handleStartDateChange}
-                onEndDateChange={this.handleEndDateChange}/>
+            <div className='filter-input date'>
+              <Input
+                value={`${startDate.format(dateInputFormat)} - ${endDate.format(dateInputFormat)}`}
+                onClick={this.handleDateRangeShow}/>
+              <FormHelperText>Date range</FormHelperText>
             </div>
             <div className='filter-input'>
               <SelectInput
@@ -155,6 +162,12 @@ export default class BikesFilters extends Component {
           <Button variant='contained' color='default' onClick={this.onClearClick}>Clear</Button>
           <Button variant='contained' color='primary' onClick={this.onSearchClick}>Search</Button>
         </div>
+        {showDateRageDialog &&
+          <DateRangeDialog
+            startDate={startDate}
+            endDate={endDate}
+            onClose={this.handleDateRangeDialogClose}
+            onDateSelect={this.handleDateRangeSelect}/>}
       </div>
     );
   }

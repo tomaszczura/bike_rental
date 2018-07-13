@@ -21,6 +21,12 @@
 
     .filter-input {
 
+      &.date {
+        & > div {
+          width: 190px;
+        }
+      }
+
       & > div {
         width: 100px;
       }
@@ -39,4 +45,8 @@
       width: 150px;
     }
   }
+}
+
+.period {
+  margin-bottom: 10px;
 }
