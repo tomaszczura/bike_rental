@@ -122,6 +122,7 @@ export default class UsersManageList extends Component {
 
         {showEditDialog &&
           <EditUserDialog
+            edit
             location={location}
             initialValues={{ ...userToEdit.toJS() }}
             onClose={this.closeEditUserDialog}/>

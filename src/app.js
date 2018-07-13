@@ -15,6 +15,9 @@ import selector from './selector';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import 'react-dates/initialize';
+import { getErrorCode } from './utils/error';
+import { ApiErrors } from './api/apiErrors';
+import { push } from 'react-router-redux';
 
 const theme = createMuiTheme({
   palette: {
@@ -35,12 +38,16 @@ const theme = createMuiTheme({
 });
 
 @connect(selector, dispatch => ({
+  logoutUser: bindActionCreators(appActions.logoutUser, dispatch),
   fetchUserProfile: bindActionCreators(actions.fetchUser, dispatch),
-  closeSnackbar: bindActionCreators(appActions.closeSnackbar, dispatch)
+  closeSnackbar: bindActionCreators(appActions.closeSnackbar, dispatch),
+  routerPush: bindActionCreators(push, dispatch)
 }))
 class App extends Component {
   static propTypes = {
     closeSnackbar: PropTypes.func,
+    logoutUser: PropTypes.func,
+    routerPush: PropTypes.func,
     snackbarOpened: PropTypes.bool,
     snackbarMessage: PropTypes.string,
     children: PropTypes.node,
@@ -49,10 +56,18 @@ class App extends Component {
 
   state = {};
 
-  componentDidMount() {
+  async componentDidMount() {
     const savedUser = session.getSavedUser();
     if (savedUser) {
-      this.props.fetchUserProfile();
+      try {
+        await this.props.fetchUserProfile();
+      } catch (error) {
+        const errorCode = getErrorCode(error);
+        if (errorCode === ApiErrors.NOT_FOUND) {
+          this.props.logoutUser();
+          this.props.routerPush('/login');
+        }
+      }
     }
   }
 

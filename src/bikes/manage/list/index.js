@@ -75,7 +75,11 @@ export default class BikesManageList extends Component {
     this.props.fetchBikes(this.props.location.query);
   };
 
-  openBikeEditDialog = (bike) => async () => this.setState({ showEditDialog: true, bikeToEdit: bike });
+  openBikeEditDialog = (bike) => async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState({ showEditDialog: true, bikeToEdit: bike });
+  };
 
   closeEditBikeDialog = () => this.setState({ showEditDialog: false });
 

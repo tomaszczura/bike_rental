@@ -1,3 +1,5 @@
+export { logoutUser } from './actions/user';
+
 export const SNACKBAR_OPEN = 'APP/SNACKBAR_OPEN';
 export const SNACKBAR_CLOSE = 'APP/SNACKBAR_CLOSE';
 
