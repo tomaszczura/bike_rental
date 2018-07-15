@@ -1,4 +1,5 @@
 import Cookies from 'universal-cookie';
+import moment from 'moment';
 
 const cookies = new Cookies();
 
@@ -13,7 +14,7 @@ export function saveUser(user) {
     role: user.profile.role,
     id: user.profile.id
   };
-  cookies.set('session', JSON.stringify(dataToSave), { path: '/' });
+  cookies.set('session', JSON.stringify(dataToSave), { path: '/', expires: moment().add(1, 'years').toDate() });
 }
 
 export function clearUser() {

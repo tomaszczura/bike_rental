@@ -67,6 +67,7 @@ export default class LoginDialog extends Component {
       this.setState({ loading: false });
       this.props.routerPush('/bikes');
     } catch (error) {
+      console.error(error); // eslint-disable-line no-console
       this.resolveError(error);
     }
   };
