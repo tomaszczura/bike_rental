@@ -63,7 +63,7 @@ export default class UsersManageList extends Component {
   closeCreateUserDialog = () => this.setState({ showCreateDialog: false });
 
   handleUserClick = (user) => {
-    this.props.routerPush(`/${user.get('id')}/bookings`);
+    this.props.routerPush(`/users/${user.get('id')}/bookings`);
   };
 
   handleUserDeleteClick = (id) => async () => {
